@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:13.1
+    volumes:
+      - cms-sample-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  rails:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+
+volumes:
+  cms-sample-db:
+    external: true
