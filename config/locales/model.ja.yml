@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    models:
+      articles: ページ
+
+    attributes:
+      articles:
+        title: タイトル
+        content: 内容
+        status: ステータス
+        article_type: ページタイプ
+        slug: スラッグ
+
+  attributes:
+    created_at: 作成日時
+    updated_at: 更新日時
