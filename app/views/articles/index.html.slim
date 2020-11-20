@@ -3,6 +3,7 @@ h1 Listing articles
 table
   thead
     tr
+      th Author ID
       th Title
       th Content
       th Published at
@@ -16,6 +17,7 @@ table
   tbody
     - @articles.each do |article|
       tr
+        td = article.author_id
         td = article.title
         td = article.content
         td = article.published_at
