@@ -1,10 +1,7 @@
 FROM ruby:2.7.2
 
-RUN apt update \
-  && apt install -y --no-install-recommends \
+RUN apt update -qq && apt install -y --no-install-recommends build-essential libpq-dev \
   postgresql-client
-
-RUN apt update -qq && apt install -y build-essential libpq-dev
 
 RUN curl -sL https://deb.nodesource.com/setup_15.x | bash - \
   && apt install nodejs
