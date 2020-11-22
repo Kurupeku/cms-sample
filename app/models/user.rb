@@ -5,7 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # relations
+  has_one :profile
+
   has_many :articles
+  has_many :comments
 end
 
 # == Schema Information

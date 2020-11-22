@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong User:
+  = @comment.user
+p
+  strong Author name:
+  = @comment.author_name
+p
+  strong Author ip:
+  = @comment.author_ip
+p
+  strong Author url:
+  = @comment.author_url
+p
+  strong Author agent:
+  = @comment.author_agent
+p
+  strong Content:
+  = @comment.content
+
+=> link_to 'Edit', edit_comment_path(@comment)
+'|
+=< link_to 'Back', comments_path

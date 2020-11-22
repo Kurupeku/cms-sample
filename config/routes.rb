@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :tags
+  resources :categories
+  resources :comments
+  resources :profiles
   devise_for :users
   resources :articles, except: [:index]
   root to: 'articles#index'

@@ -1,4 +1,6 @@
 class ArticlesController < ApplicationController
+  impressionist actions: [:show]
+
   before_action :set_article, only: %i[show edit update destroy]
 
   # GET /articles
@@ -19,7 +21,7 @@ class ArticlesController < ApplicationController
 
   # POST /articles
   def create
-    @article = Article.new(article_params)
+    @article = Article.new article_params
 
     if @article.save
       redirect_to @article, notice: 'Article was successfully created.'
@@ -30,7 +32,7 @@ class ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1
   def update
-    if @article.update(article_params)
+    if @article.update article_params
       redirect_to @article, notice: 'Article was successfully updated.'
     else
       render :edit
@@ -56,7 +58,8 @@ class ArticlesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def article_params
-    params.require(:article).permit :title, :published_at, :status,
-                                    :type, :slug, :author_id, :content
+    params.require(:article).permit :title, :article_type, :published_at,
+                                    :status, :slug, :author_id, :category_id,
+                                    :content
   end
 end
