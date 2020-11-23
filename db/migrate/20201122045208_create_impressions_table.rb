@@ -1,5 +1,5 @@
 class CreateImpressionsTable < ActiveRecord::Migration[6.0]
-  def self.up
+  def change
     create_table :impressions, force: true do |t|
       t.string :impressionable_type
       t.integer :impressionable_id
@@ -24,13 +24,7 @@ class CreateImpressionsTable < ActiveRecord::Migration[6.0]
     add_index :impressions, %i[controller_name action_name session_hash], name: 'controlleraction_session_index', unique: false
     add_index :impressions, %i[impressionable_type impressionable_id params], name: 'poly_params_request_index', unique: false, length: { params: 255 }
     add_index :impressions, :user_id
-  end
 
-  def self.down
-    drop_table :impressions
-  end
-
-  def change
     add_column :articles, :impressions_count, :integer, null: false, default: 0
     add_column :articles, :comments_count, :integer, null: false, default: 0
   end

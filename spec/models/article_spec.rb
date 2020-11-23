@@ -1,7 +1,71 @@
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Article, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'バリデーションの動作確認' do
+    it 'title, slug がともに有効な値の場合、有効になる' do
+      article = build :article
+      expect(article).to be_valid
+    end
+
+    it 'title が未定義の場合、無効になる' do
+      article = build :article, title: nil
+      article.valid?
+      expect(article.errors.key?(:title)).to be true
+    end
+
+    it 'title が空文字の場合、無効になる' do
+      article = build :article, title: ''
+      article.valid?
+      expect(article.errors.key?(:title)).to be true
+    end
+
+    it 'slug が未定義の場合、無効になる' do
+      article = build :article, slug: nil
+      article.valid?
+      expect(article.errors.key?(:slug)).to be true
+    end
+
+    it 'slug が空文字の場合、無効になる' do
+      article = build :article, slug: ''
+      article.valid?
+      expect(article.errors.key?(:slug)).to be true
+    end
+
+    it 'slug がすでに存在する文字列の場合、無効になる' do
+      past_article = create :article
+      article = build :article, slug: past_article.slug
+      article.valid?
+      expect(article.errors.key?(:slug)).to be true
+    end
+  end
+
+  context 'カウンターキャッシュの動作確認' do
+    it '関連する Comment が作成された際にカウンターが増える' do
+      article = create :article
+      expect do
+        create :comment, article: article
+      end.to change { article.comments_count }.by 1
+    end
+  end
+
+  context '依存削除の動作確認' do
+    it 'Article インスタンスが削除された場合、関連する Comment も削除される' do
+      article = create :article
+      create_list :comment, 3, article: article
+      expect do
+        article.destroy
+      end.to change { Comment.all.size }.by(-3)
+    end
+
+    it 'Article インスタンスが削除された場合、Tag との中間テーブルのレコードも削除される' do
+      article = create :article
+      create_list :tag, 3, articles: [article]
+      expect do
+        article.destroy
+      end.to change { ArticleTagAttachment.all.size }.by(-3)
+    end
+  end
 end
 
 # == Schema Information

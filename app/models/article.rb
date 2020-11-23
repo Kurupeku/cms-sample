@@ -11,8 +11,6 @@ class Article < ApplicationRecord
 
   # validations
   validates :title, presence: true
-  validates :status, inclusion: { in: statuses.entries.flatten }
-  validates :article_type, inclusion: { in: article_types.entries.flatten }
   validates :slug, presence: true, uniqueness: true
 
   # relations
@@ -25,6 +23,11 @@ class Article < ApplicationRecord
 
   # use ActionText
   has_rich_text :content
+
+  # overriting inherited method to use slug in url_helper
+  def to_param
+    slug
+  end
 
   private
 

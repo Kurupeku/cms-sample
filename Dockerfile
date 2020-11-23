@@ -16,7 +16,4 @@ COPY Gemfile* ./
 RUN bundle install
 COPY . .
 
-WORKDIR /app/client
-RUN npm i
-
 EXPOSE 3000

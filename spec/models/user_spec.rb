@@ -1,7 +1,37 @@
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'バリデーションの動作確認' do
+    it 'email, password ともに有効な値の場合、有効になる' do
+      user = build :user
+      expect(user).to be_valid
+    end
+
+    it 'email が未定義の場合、無効になる' do
+      user = build :user, email: nil
+      user.valid?
+      expect(user.errors.key?(:email)).to be true
+    end
+
+    it 'email の形式が正しくない場合、無効になる' do
+      user = build :user, email: 'sample.mail.test.com'
+      user.valid?
+      expect(user.errors.key?(:email)).to be true
+    end
+
+    it 'password が未定義の場合、無効になる' do
+      user = build :user, password: nil
+      user.valid?
+      expect(user.errors.key?(:password)).to be true
+    end
+
+    it 'password が6文字未満の場合、無効になる' do
+      user = build :user, password: 'abced'
+      user.valid?
+      expect(user.errors.key?(:password)).to be true
+    end
+  end
 end
 
 # == Schema Information

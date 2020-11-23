@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :profile do
-    user { nil }
-    name { "MyString" }
-    description { "MyText" }
+    user { create :user }
+    sequence(:name) { |n| "SampleUser#{n}" }
+    description { 'これはテスト用の自己紹介文です。' }
   end
 end
 

@@ -8,7 +8,7 @@ class Comment < ApplicationRecord
   # validations
   validates :author_name, presence: true
   validates :content, presence: true
-  validates :status, inclusion: { in: statuses.entries.flatten }
+  validates :status, presence: true
 
   # relations
   belongs_to :article, counter_cache: true
@@ -23,7 +23,7 @@ class Comment < ApplicationRecord
   def check_current_user(current_user)
     return if current_user.blank?
 
-    self.user_id = current_user.id
+    self.user = current_user
   end
 
   private

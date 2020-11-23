@@ -1,6 +1,6 @@
 class Tag < ApplicationRecord
   # validations
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   # relations
   has_many :article_tag_attachments, dependent: :destroy

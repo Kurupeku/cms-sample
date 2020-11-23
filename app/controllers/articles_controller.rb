@@ -48,12 +48,8 @@ class ArticlesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_article
-    @article = if params[:slug].present?
-                 Article.find_by! slug: params[:slug]
-               else
-                 Article.find params[:id]
-               end
+  def set_article_by_slug
+    @article = Article.find_by! slug: params[:id]
   end
 
   # Only allow a trusted parameter "white list" through.

@@ -1,11 +1,13 @@
 FactoryBot.define do
   factory :article do
-    title { "MyString" }
-    content { "MyText" }
-    published_at { "2020-11-20 13:06:00" }
-    status { 1 }
-    type { 1 }
-    slug { "MyString" }
+    author { create :user }
+    category { nil }
+    sequence(:title) { |n| "Article #{n}" }
+    content { 'テストの投稿内容です。' }
+    published_at { Time.current }
+    status { 0 }
+    article_type { 0 }
+    sequence(:slug) { |n| "slug-#{n}" }
   end
 end
 
