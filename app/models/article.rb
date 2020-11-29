@@ -12,6 +12,7 @@ class Article < ApplicationRecord
   # validations
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true
+  validate :not_add_to_parent_category
 
   # relations
   belongs_to :author, class_name: 'User'
@@ -35,6 +36,10 @@ class Article < ApplicationRecord
     return if content&.body.blank?
 
     self.opening_sentence = content.body.to_plain_text.byteslice 0, 40
+  end
+
+  def not_add_to_parent_category
+    errors.add :base, :not_have_children_and_articles if category.present? && category.parent?
   end
 end
 

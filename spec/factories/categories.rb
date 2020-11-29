@@ -1,7 +1,23 @@
 FactoryBot.define do
   factory :category do
     parent { nil }
-    name { "MyString" }
+    sequence(:name) { |n| "Category#{n}" }
+
+    trait :with_parent do
+      parent { create :category }
+    end
+
+    trait :with_children do
+      after :create do |category|
+        category.children << create(:category)
+      end
+    end
+
+    trait :with_articles do
+      after :create do |category|
+        category.articles << create(:article)
+      end
+    end
   end
 end
 
@@ -10,7 +26,7 @@ end
 # Table name: categories
 #
 #  id             :bigint           not null, primary key
-#  articles_count :string
+#  articles_count :integer          default(0), not null
 #  name           :string           default(""), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

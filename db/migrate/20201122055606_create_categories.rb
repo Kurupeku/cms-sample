@@ -2,7 +2,7 @@ class CreateCategories < ActiveRecord::Migration[6.0]
   def change
     create_table :categories do |t|
       t.string :name, null: false, default: ''
-      t.string :articles_count
+      t.integer :articles_count, null: false, default: 0
 
       t.timestamps
     end

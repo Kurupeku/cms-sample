@@ -38,6 +38,13 @@ RSpec.describe Article, type: :model do
       article.valid?
       expect(article.errors.key?(:slug)).to be true
     end
+
+    it 'category がサブカテゴリーを持つ場合、関連付けができない' do
+      parent_category = create :category, :with_children
+      article = build :article, category: parent_category
+      article.valid?
+      expect(article.errors.key?(:base)).to be true
+    end
   end
 
   context 'カウンターキャッシュの動作確認' do
