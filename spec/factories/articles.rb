@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :article do
     author { create :user }
@@ -8,6 +10,17 @@ FactoryBot.define do
     status { 0 }
     article_type { 0 }
     sequence(:slug) { |n| "slug-#{n}" }
+
+    trait :with_category do
+      category { create :category }
+    end
+
+    trait :with_comments do
+      after :create do |article|
+        random = Random.rand 0..10
+        create_list :comment, random, article: article
+      end
+    end
   end
 end
 

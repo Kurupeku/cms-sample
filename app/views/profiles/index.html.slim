@@ -17,9 +17,3 @@ table
         td = profile.name
         td = profile.description
         td = link_to 'Show', profile
-        td = link_to 'Edit', edit_profile_path(profile)
-        td = link_to 'Destroy', profile, data: { confirm: 'Are you sure?' }, method: :delete
-
-br
-
-= link_to 'New Profile', new_profile_path

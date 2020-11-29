@@ -23,9 +23,3 @@ table
         td = comment.author_agent
         td = comment.content
         td = link_to 'Show', comment
-        td = link_to 'Edit', edit_comment_path(comment)
-        td = link_to 'Destroy', comment, data: { confirm: 'Are you sure?' }, method: :delete
-
-br
-
-= link_to 'New Comment', new_comment_path
