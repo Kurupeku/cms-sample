@@ -103,6 +103,7 @@ GEM
     fast_jsonapi (1.5)
       activesupport (>= 4.2)
     ffi (1.13.1)
+    foreman (0.87.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hpricot (0.8.6)
@@ -327,6 +328,7 @@ DEPENDENCIES
   devise_token_auth
   factory_bot_rails
   fast_jsonapi
+  foreman
   html2slim
   image_processing (~> 1.2)
   impressionist
