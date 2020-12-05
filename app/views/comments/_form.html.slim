@@ -1,5 +1,5 @@
 = form_for @comment do |f|
-  = render partial: 'global_partials/form_errors', locals: { record: @comment }
+  = render partial: 'layouts/partials/form_errors', locals: { record: @comment }
 
   .field
     = f.label :author_name

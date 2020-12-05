@@ -205,3 +205,8 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
+  tooltips:
+    copy_url: URLをコピー
+    share_to_line: Lineでシェアする
+    share_to_facebook: Facebookでシェアする
+    share_to_twitter: Twitterでシェアする

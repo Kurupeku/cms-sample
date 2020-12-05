@@ -1,0 +1,33 @@
+body {
+  #main-container {
+    min-height: calc(100vh - 160px);
+  }
+}
+
+footer {
+  width: 100%;
+}
+
+#footer-nav {
+  min-height: 80px;
+}
+
+#footer-nav-social-container {
+  min-width: 10rem;
+
+  ul {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+#notification {
+  z-index: 5000;
+  position: fixed;
+  left: 15px;
+  bottom: 0;
+  width: calc(100vw - 30px);
+}

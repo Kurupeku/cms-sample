@@ -1,0 +1,14 @@
+ul class="uk-navbar-nav uk-visible@s"
+  - @menus.each do |menu|
+    li class="#{check_uk_active menu[:path], exactly: menu[:path] == '/'}"
+      = link_to menu[:label], menu[:path]
+
+- if defined?(with_mobile) && with_mobile
+  ul class="uk-navbar-nav uk-hidden@s"
+    li
+      a.uk-navbar-toggle href="#" uk-navbar-toggle-icon=""
+      .uk-navbar-dropdown
+        ul.uk-nav.uk-navbar-dropdown-nav
+          - @menus.each do |menu|
+            li class="#{check_uk_active menu[:path], exactly: menu[:path] == '/'}"
+              = link_to menu[:label], menu[:path]
