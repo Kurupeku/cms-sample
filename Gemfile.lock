@@ -106,6 +106,9 @@ GEM
     foreman (0.87.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    gretel (4.2.0)
+      actionview (>= 5.1, < 7.0)
+      railties (>= 5.1, < 7.0)
     hpricot (0.8.6)
     html2slim (0.2.0)
       hpricot
@@ -329,6 +332,7 @@ DEPENDENCIES
   factory_bot_rails
   fast_jsonapi
   foreman
+  gretel
   html2slim
   image_processing (~> 1.2)
   impressionist

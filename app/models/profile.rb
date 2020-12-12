@@ -8,6 +8,9 @@ class Profile < ApplicationRecord
   # relations
   belongs_to :user, touch: true
 
+  # use active storage
+  has_one_attached :avatar
+
   private
 
   def set_default_description

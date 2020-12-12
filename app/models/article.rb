@@ -22,7 +22,10 @@ class Article < ApplicationRecord
   has_many :article_tag_attachments, dependent: :delete_all
   has_many :tags, through: :article_tag_attachments
 
-  # use ActionText
+  # use active storage
+  has_one_attached :cover
+
+  # use action text
   has_rich_text :content
 
   # overriting inherited method to use slug in url_helper

@@ -1,7 +1,8 @@
-footer
-  nav#footer-nav.uk-navbar-container.uk-navbar-transparent.uk-flex-center uk-navbar=""
-    div#footer-nav-link-container class="uk-flex-1 uk-visible@m"
-      = render partial: 'layouts/partials/global_menu'
+footer.uk-background-secondary.uk-light
+  .uk-container
+    nav#footer-nav.uk-flex-center uk-navbar=""
+      div#footer-nav-link-container class="uk-flex-1 uk-visible@m"
+        = render partial: 'layouts/partials/global_menu'
 
-    div#footer-nav-social-container class="uk-flex-middle"
-      = render partial: 'layouts/partials/share_buttons'
+      div#footer-nav-social-container class="uk-flex-middle"
+        = render partial: 'layouts/partials/share_buttons'

@@ -53,6 +53,16 @@ RSpec.describe Category, type: :model do
     end
   end
 
+  context 'scope positive_parent の動作確認' do
+    it 'parent を持たず、記事かカテゴリが1つ以上紐付いているカテゴリのみを返す' do
+      create_list :category, 2
+      create_list :category, 2, :with_children
+      create_list :category, 2, :with_articles
+      scoped_categories = Category.positive_parent
+      expect(scoped_categories.size).to eq 4
+    end
+  end
+
   context '関数 parent? の動作確認' do
     it 'children を持つ場合 true を返す' do
       category = create :category, :with_children

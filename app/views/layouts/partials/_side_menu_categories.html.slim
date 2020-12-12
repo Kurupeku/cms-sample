@@ -1,0 +1,6 @@
+.uk-card.uk-card-default.uk-padding-small.uk-margin
+  h5.uk-card-title Category
+  ul.uk-list.uk-list-divider
+    - @side_menu_categories.map do |category|
+      li
+        = link_to category.name, category_path(category), class: 'uk-link-text'

@@ -1,27 +1,7 @@
+- breadcrumb :root
+= render partial: 'layouts/partials/breadcrumbs'
+
 h1 Listing articles
 
-table
-  thead
-    tr
-      th Author ID
-      th Title
-      th Content
-      th Published at
-      th Status
-      th Article type
-      th Slug
-      th
-      th
-      th
-
-  tbody
-    - @articles.each do |article|
-      tr
-        td = article.author_id
-        td = article.title
-        td = article.content
-        td = article.published_at
-        td = article.status
-        td = article.article_type
-        td = article.slug
-        td = link_to 'Show', article
+.uk-grid-medium uk-grid=""
+  = render partial: 'article_card', collection: @articles, as: 'article'

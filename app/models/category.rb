@@ -9,6 +9,24 @@ class Category < ApplicationRecord
   has_many :children, class_name: 'Category', foreign_key: 'parent_id', dependent: :destroy
   has_many :articles, dependent: :nullify
 
+  # scope
+  scope :joins_children, -> { left_outer_joins(:children).references(:children) }
+  scope :has_children, lambda {
+    left_outer_joins(:children)
+      .references(:children)
+      .where(parent_id: nil)
+      .where('children_categories.parent_id > ?', 0)
+  }
+  scope :has_articles, lambda {
+    left_outer_joins(:children)
+      .references(:children)
+      .where(parent_id: nil)
+      .where('categories.articles_count > ?', 0)
+  }
+  scope :positive_parent, lambda {
+    has_children.or(has_articles).order :articles_count
+  }
+
   def parent?
     children&.size&.positive? || false
   end

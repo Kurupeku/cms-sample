@@ -1,0 +1,6 @@
+.uk-card.uk-card-default.uk-padding-small.uk-margin
+  h5.uk-card-title Tag
+  ul.uk-list.uk-list-divider
+    - @side_menu_tags.map do |tag|
+      li
+        = link_to tag.name, tag_path(tag), class: 'uk-link-text'

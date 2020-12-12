@@ -1,23 +1,6 @@
-header.uk-position-relative
-  nav.uk-navbar-container.uk-navbar uk-navbar="dropbar: true; dropbar-mode: push;"
+header#global-header.uk-position-relative
+  nav.uk-navbar.uk-padding-small.uk-padding-remove-vertical.uk-background-secondary.uk-light uk-navbar="dropbar: true; dropbar-mode: push;"
     .uk-navbar-left
-      a.uk-navbar-item.uk-logo
-        | Sample Blog
+      = link_to "Sample Blog", root_path, class: "uk-navbar-item uk-logo"
     div class="uk-navbar-right"
       = render partial: 'layouts/partials/global_menu', locals: { with_mobile: true }
-
-      / ul class="uk-navbar-nav uk-hidden@s"
-        li
-          a.uk-navbar-toggle href="#" uk-navbar-toggle-icon=""
-          .uk-navbar-dropdown
-            ul.uk-nav.uk-navbar-dropdown-nav
-              li class="#{check_uk_active root_path, exactly: true}"
-                = link_to 'All Posts', root_path
-              li class="#{check_uk_active categories_path}"
-                = link_to 'Categories', categories_path
-              li class="#{check_uk_active tags_path}"
-                = link_to 'Tags', tags_path
-              li
-                = link_to 'About', "#"
-              li
-                = link_to 'Contact', "#"

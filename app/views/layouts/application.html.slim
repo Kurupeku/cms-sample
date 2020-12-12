@@ -11,7 +11,12 @@ html lang="ja"
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     = render partial: 'layouts/partials/header'
-    #main-container
-      = yield
+    #main-container.uk-container.uk-padding.uk-padding-remove-horizontal
+      div uk-grid=""
+        div class="uk-width-3-4@m"
+          = yield
+        div class="uk-visible@m uk-width-1-4@m"
+          = render partial: 'layouts/partials/side_menu_categories'
+          = render partial: 'layouts/partials/side_menu_tags'
     = render partial: 'layouts/partials/footer'
     = render partial: "layouts/partials/notification"

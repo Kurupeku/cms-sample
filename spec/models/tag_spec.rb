@@ -46,6 +46,16 @@ RSpec.describe Tag, type: :model do
       end.to change { ArticleTagAttachment.all.size }.by(-3)
     end
   end
+
+  context 'scope positive の動作確認' do
+    it '記事が1つ以上紐付いているカテゴリのみを返す' do
+      create_list :tag, 2
+      create_list :article, 3, tags: [create(:tag)]
+      create_list :article, 2, tags: [create(:tag)]
+      scoped_tags = Tag.positive
+      expect(scoped_tags.size).to eq 2
+    end
+  end
 end
 
 # == Schema Information

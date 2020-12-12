@@ -22,6 +22,6 @@ class ArticlesController < ApplicationController
   def article_params
     params.require(:article).permit :title, :article_type, :published_at,
                                     :status, :slug, :author_id, :category_id,
-                                    :content
+                                    :cover, :content
   end
 end

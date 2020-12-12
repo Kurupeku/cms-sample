@@ -5,6 +5,9 @@ class Tag < ApplicationRecord
   # relations
   has_many :article_tag_attachments, dependent: :destroy
   has_many :articles, through: :article_tag_attachments
+
+  # scope
+  scope :positive, -> { where '(articles_count > ?)', 0 }
 end
 
 # == Schema Information
