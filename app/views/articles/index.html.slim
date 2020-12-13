@@ -1,7 +1,11 @@
 - breadcrumb :root
 = render partial: 'layouts/partials/breadcrumbs'
 
-h1 Listing articles
+#articles-sorting-container
+  = render partial: 'sort_tabs'
 
-.uk-grid-medium uk-grid=""
+section#articles-container.uk-grid-medium uk-grid=""
   = render partial: 'article_card', collection: @articles, as: 'article'
+
+#articles-paginate-container.uk-flex.uk-flex-center.uk-margin-top
+  = paginate @articles, remote: true

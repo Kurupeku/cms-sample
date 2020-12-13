@@ -73,6 +73,43 @@ RSpec.describe Article, type: :model do
       end.to change { ArticleTagAttachment.all.size }.by(-3)
     end
   end
+
+  context 'set_opening_sentence の動作確認' do
+    let(:content_string) { 'sample content text.' * 10 }
+
+    it 'content が登録された際に、先頭40byte文の文章が opening_sentence に登録される' do
+      article = create :article, content: content_string
+      expect(article.opening_sentence).to eq content_string.byteslice(0, 40)
+    end
+  end
+
+  context 'set_published_at の動作確認' do
+    it 'status が published になった際に、published_at へ現在時刻が登録される' do
+      article = create :article, status: :published
+      expect(article.published_at).to be_truthy
+    end
+
+    it 'status がすでに published だった場合、published_at は更新されない' do
+      article = create :article, status: :published
+      before_time = article.published_at
+      article.published!
+      expect(before_time).to eq article.published_at
+    end
+  end
+
+  context 'remove_published_at の動作確認' do
+    it 'status が draft になった際に、published_at が削除される' do
+      article = create :article, status: :draft
+      expect(article.published_at).to be_falsey
+    end
+
+    it 'status がすでに draft だった場合、published_at は更新されない' do
+      article = create :article, status: :draft
+      before_time = article.published_at
+      article.draft!
+      expect(before_time).to eq article.published_at
+    end
+  end
 end
 
 # == Schema Information

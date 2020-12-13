@@ -7,8 +7,10 @@ ul class="uk-navbar-nav uk-visible@s"
   ul class="uk-navbar-nav uk-hidden@s"
     li
       a.uk-navbar-toggle href="#" uk-navbar-toggle-icon=""
-      .uk-navbar-dropdown
+      #mobile-menu.uk-navbar-dropdown uk-drop="boundary: nav; boundary-align: true; pos: bottom-justify;"
         ul.uk-nav.uk-navbar-dropdown-nav
-          - @menus.each do |menu|
+          - @menus.map.with_index do |menu, i|
+            - unless i.zero?
+              li.uk-nav-divider
             li class="#{check_uk_active menu[:path], exactly: menu[:path] == '/'}"
               = link_to menu[:label], menu[:path]

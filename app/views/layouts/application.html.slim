@@ -11,8 +11,8 @@ html lang="ja"
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     = render partial: 'layouts/partials/header'
-    #main-container.uk-container.uk-padding.uk-padding-remove-horizontal
-      div uk-grid=""
+    #main-container.uk-container
+      div.uk-padding.uk-padding-remove-horizontal uk-grid=""
         div class="uk-width-3-4@m"
           = yield
         div class="uk-visible@m uk-width-1-4@m"

@@ -8,7 +8,7 @@ crumb :article do |article|
 end
 
 crumb :categories do
-  link 'Category', categories_path
+  link Category.model_name.human, categories_path
   parent :root
 end
 
@@ -18,7 +18,7 @@ crumb :category do |category|
 end
 
 crumb :tags do
-  link 'Tags', tags_path
+  link Tag.model_name.human, tags_path
   parent :root
 end
 

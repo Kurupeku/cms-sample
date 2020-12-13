@@ -1,0 +1,21 @@
+
+
+nav.uk-navbar-container.uk-grid-collapse.uk-margin uk-navbar="" uk-grid=""
+  ul#articles-sort-list.uk-width-1-1.uk-child-width-expand class="uk-width-expand@m" uk-tab=""
+    li class="#{check_uk_active_sort_tab(:published_at)}"
+      = sort_link @search, :published_at, { default_order: :desc }, remote: true, class: 'loading-trigger', data: { target: '#articles-container' }
+    li class="#{check_uk_active_sort_tab(:updated_at)}"
+      = sort_link @search, :updated_at, { default_order: :desc }, remote: true, class: 'loading-trigger', data: { target: '#articles-container' }
+    li class="#{check_uk_active_sort_tab(:impressions_count)}"
+      = sort_link @search, :impressions_count, { default_order: :desc }, remote: true, class: 'loading-trigger', data: { target: '#articles-container' }
+
+  ul.uk-margin-left class="uk-visible@m" uk-tab=""
+    li
+      a href="#"
+        = t 'utilities.per'
+        span uk-icon="icon: triangle-down"
+      div uk-dropdown="mode: click; pos: top-right; animation: uk-animation-slide-top-small; duration: 500"
+        ul.uk-nav.uk-dropdown-nav
+          - [10, 20, 50, 100].map do |per|
+            li class="uk-padding-small uk-padding-remove-vertical #{per == @per ? 'uk-active uk-background-muted' : ''}"
+              = link_to per.to_s, articles_per_url(:published_at, per), remote: true, class: 'loading-trigger', data: { target: '#articles-container' }

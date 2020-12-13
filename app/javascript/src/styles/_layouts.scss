@@ -12,6 +12,10 @@ h1 {
   margin-top: 0;
 }
 
+#mobile-menu {
+  width: 100vw;
+}
+
 #footer-nav {
   min-height: 80px;
 }
@@ -39,4 +43,18 @@ h1 {
 .breadcrumbs {
   position: absolute;
   top: 90px;
+}
+
+ul#articles-sort-list > li {
+  min-width: 7rem;
+}
+
+.article-card {
+  .article-medium {
+    img {
+      max-height: 250px;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
 }

@@ -1,15 +1,40 @@
 ja:
   activerecord:
     models:
-      articles: ページ
+      article: 記事
+      category: カテゴリー
+      comment: コメント
+      impression: インプレッション
+      profile: プロフィール
+      tag: タグ
+      user: ユーザー
 
     attributes:
-      articles:
+      article:
         title: タイトル
+        opening_sentence: 文頭
         content: 内容
         status: ステータス
         article_type: ページタイプ
         slug: スラッグ
+        published_at: 公開日時
+        impressions_count: 閲覧数
+        comments_count: コメント数
+      category:
+        name: カテゴリ名
+        articles_count: 記事数
+      comment:
+        author_name: 投稿者
+        content: 内容
+        status: ステータス
+      profile:
+        name: 名前
+        description: 自己紹介
+      tag:
+        name: タグ名
+        articles_count: 記事数
+      user:
+        email: Email
 
   attributes:
     created_at: 作成日時

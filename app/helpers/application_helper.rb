@@ -35,4 +35,21 @@ module ApplicationHelper
 
     "uk-alert-#{key}"
   end
+
+  def check_uk_active_sort_tab(sym)
+    return '' unless sym == @search.sorts[0]&.name&.to_sym
+
+    'uk-active'
+  end
+
+  def articles_per_url(default_key, per)
+    sort_key = @search.sorts[0]&.name&.to_sym || default_key
+    ransack_url = sort_url @search, sort_key
+    url = if ransack_url.include? '+asc'
+            ransack_url.gsub '+asc', '+desc'
+          else
+            ransack_url.gsub '+desc', '+asc'
+          end
+    [url, '&per=', per].join
+  end
 end

@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
 
   def define_menu_variables
     @menus = [
-      { label: 'All Posts', path:  root_path },
-      { label: 'Categories', path: categories_path },
-      { label: 'Tags', path: tags_path }
+      { label: t('utilities.all_posts'), path: root_path },
+      { label: Category.model_name.human, path: categories_path },
+      { label: Tag.model_name.human, path: tags_path }
     ]
   end
 

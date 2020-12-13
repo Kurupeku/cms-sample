@@ -4,6 +4,8 @@ class Article < ApplicationRecord
 
   # callbacks
   before_save :set_opening_sentence
+  before_save :set_published_at
+  before_save :remove_published_at
 
   # enum
   enum status: { draft: 0, published: 1 }
@@ -28,6 +30,9 @@ class Article < ApplicationRecord
   # use action text
   has_rich_text :content
 
+  # scope
+  default_scope { published }
+
   # overriting inherited method to use slug in url_helper
   def to_param
     slug
@@ -35,14 +40,26 @@ class Article < ApplicationRecord
 
   private
 
+  def not_add_to_parent_category
+    errors.add :base, :not_have_children_and_articles if category.present? && category.parent?
+  end
+
   def set_opening_sentence
     return if content&.body.blank?
 
     self.opening_sentence = content.body.to_plain_text.byteslice 0, 40
   end
 
-  def not_add_to_parent_category
-    errors.add :base, :not_have_children_and_articles if category.present? && category.parent?
+  def set_published_at
+    return if published_at.present? || draft?
+
+    self.published_at = Time.zone.now
+  end
+
+  def remove_published_at
+    return if published_at.blank? || published?
+
+    self.published_at = nil
   end
 end
 
