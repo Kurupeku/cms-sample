@@ -1,40 +1,42 @@
 article.article-card.uk-animation-slide-bottom-medium class="uk-width-1-2@m"
 
-  .uk-card.uk-card-default.uk-card-hover
-    .article-medium.uk-card-media-top
-      - if article.cover.attached?
-        = image_tag article.cover
-      - else
-        = image_pack_tag 'no_image.jpg'
+  = link_to article_path(article), class: 'uk-link-toggle' do
+    .uk-card.uk-card-default.uk-card-hover
+      .article-medium.uk-card-media-top
+        - if article.cover.attached?
+          = image_tag article.cover
+        - else
+          = image_pack_tag 'no_image.jpg'
 
-    .uk-card-body
-      = link_to article_path(article), class: 'uk-display-block uk-link-text' do
+      .uk-card-body
         h2.uk-card-title.uk-margin-remove-bottom
           = article.title
 
-      p.uk-text-meta.uk-margin-remove-top.uk-flex-inline.uk-flex-middle
-        span.uk-margin-small-right uk-icon="icon: history; ratio: 0.8"
-        time datetime="#{article.updated_at}"
-          = l article.updated_at
+        p.uk-text-meta.uk-margin-remove-top.uk-flex-inline.uk-flex-middle
+          span.uk-margin-small-right uk-icon="icon: history; ratio: 0.8"
+          time datetime="#{article.updated_at}"
+            = l article.updated_at
 
-      div.uk-grid-collapse.uk-margin-small-bottom	uk-grid=""
-        .uk-width-1-4
-          span
-            = Category.model_name.human
-        .uk-width-3-4
-          - if article.category
-            = link_to article.category.name, category_path(article.category), class: 'uk-link-text'
-          - else
-            span.uk-link-text.uk-display-inline-block.uk-margin-small-left
-            = t 'utilities.none'
+        div.uk-grid-collapse.uk-margin-small-bottom	uk-grid=""
+          .uk-width-1-4
+            span
+              = Category.model_name.human
+          .uk-width-3-4
+            - if article.category
+              object
+                = link_to article.category.name, category_path(article.category), class: 'uk-link-text'
+            - else
+              span.uk-link-text.uk-display-inline-block.uk-margin-small-left
+              = t 'utilities.none'
 
-      div.uk-grid-collapse	uk-grid=""
-        .uk-width-1-4
-          span.uk-display-inline-block
-            = Tag.model_name.human
-        .uk-width-3-4
-          - article.tags.map do |tag|
-            = link_to tag.name, tag_path(tag), class: 'uk-badge uk-display-inline-block uk-margin-small-right'
+        div.uk-grid-collapse	uk-grid=""
+          .uk-width-1-4
+            span.uk-display-inline-block
+              = Tag.model_name.human
+          .uk-width-3-4
+            - article.tags.map do |tag|
+              object
+                = link_to tag.name, tag_path(tag), class: 'uk-badge uk-display-inline-block uk-margin-small-right'
 
-      p
-        = article.opening_sentence
+        p
+          = article.opening_sentence

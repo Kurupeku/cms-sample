@@ -1,20 +1,21 @@
 - breadcrumb :categories
 = render partial: 'layouts/partials/breadcrumbs'
 
-h1 Listing categories
-
-table
-  thead
-    tr
-      th Parent
-      th Name
-      th
-      th
-      th
-
-  tbody
-    - @categories.each do |category|
-      tr
-        td = category.parent
-        td = category.name
-        td = link_to 'Show', category
+section.uk-card.uk-card-default.uk-card-body
+  h5.uk-card-title
+    = Category.model_name.human
+  ul.uk-list.uk-list-divider uk-accordion=""
+    - @categories.map do |category|
+      li
+        - if category.parent?
+          = link_to category.name, "#", class: 'uk-accordion-title uk-text-default uk-link-text'
+          .uk-accordion-content
+            hr.uk-margin-remove
+            ul.uk-list.uk-list-divider
+              - category.children.map do |child|
+                li.uk-padding-small.uk-padding-remove-vertical
+                  = link_to "#{child.name} (#{child.articles_count})", category_path(child), class: 'uk-link-text'
+        - else
+          = link_to "#{category.name} (#{category.articles_count})", category_path(category), class: 'uk-link-text'
+    li
+      = link_to "#{t('utilities.uncategorized')} (#{@side_menu_uncategorized_articles_count})", '/categories/0', class: 'uk-link-text'

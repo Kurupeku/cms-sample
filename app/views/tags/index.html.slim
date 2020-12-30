@@ -1,18 +1,10 @@
 - breadcrumb :tags
 = render partial: 'layouts/partials/breadcrumbs'
 
-h1 Listing tags
-
-table
-  thead
-    tr
-      th Name
-      th
-      th
-      th
-
-  tbody
-    - @tags.each do |tag|
-      tr
-        td = tag.name
-        td = link_to 'Show', tag
+section.uk-card.uk-card-default.uk-card-body
+  h5.uk-card-title
+    = Tag.model_name.human
+  ul.uk-list.uk-list-divider
+    - @tags.map do |tag|
+      li
+        = link_to "#{tag.name} (#{tag.articles_count})", tag_path(tag), class: 'uk-link-text'

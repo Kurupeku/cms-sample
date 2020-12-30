@@ -11,12 +11,13 @@ html lang="ja"
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     = render partial: 'layouts/partials/header'
-    #main-container.uk-container
-      div.uk-padding.uk-padding-remove-horizontal uk-grid=""
-        div class="uk-width-3-4@m"
+    #main-container class="uk-container#{side_menu_available? ? "" : " uk-container-small"}#{request.path == '/' ? "" : " breadcrumbs-padding"}"
+      div uk-grid=""
+        div class="#{main_area_classes}"
           = yield
-        div class="uk-visible@m uk-width-1-4@m"
-          = render partial: 'layouts/partials/side_menu_categories'
-          = render partial: 'layouts/partials/side_menu_tags'
+        - if side_menu_available?
+          div class="uk-visible@m uk-width-1-4@m"
+            = render partial: 'layouts/partials/side_menu_categories'
+            = render partial: 'layouts/partials/side_menu_tags'
     = render partial: 'layouts/partials/footer'
     = render partial: "layouts/partials/notification"

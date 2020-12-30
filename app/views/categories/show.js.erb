@@ -1,9 +1,9 @@
 (() => {
   document.getElementById("articles-sorting-container").innerHTML =
-    "<%= j(render partial: 'sort_tabs') %>";
+    "<%= j(render partial: 'articles/sort_tabs') %>";
 
   document.getElementById("articles-container").innerHTML =
-    "<%= j(render partial: 'article_card', collection: @articles, as: 'article') %>";
+    "<%= j(render partial: 'articles/article_card', collection: @articles, as: 'article') %>";
 
   document.getElementById("articles-paginate-container").innerHTML =
     "<%= j(paginate @articles, remote: true) %>";

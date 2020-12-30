@@ -1,0 +1,10 @@
+ja:
+  contacts:
+    new:
+      title: お問い合わせ
+      name: お名前
+      email: メールアドレス
+      content: お問い合わせ内容
+      submit: この内容で送信する
+      require: 必須の項目です
+      email_validation: 不正なメールアドレスです

@@ -1,10 +1,9 @@
+import UIkit from "uikit";
+
 (() => {
   // String variables
   const loadingHtml =
     '<div class="uk-width-expand uk-flex uk-flex-center uk-flex-middle uk-height-small"><div uk-spinner></div></div>';
-
-  // HTMLElement variables
-  const elms = document.getElementsByClassName("loading-trigger");
 
   // Methods
   const setLoadingSpinner = (e) => {
@@ -18,13 +17,53 @@
     }
   };
 
+  const contactFormInvalidMessage = (message) => {
+    return `\
+      <div class="uk-alert uk-alert-danger uk-width-1-1 uk-padding-small contact-form-alert">
+        <p>${message}</p>
+      </div>`;
+  };
+
+  const removePastAlert = (parent) => {
+    const pastAlert = parent.querySelector(".contact-form-alert");
+    pastAlert && pastAlert.remove();
+    parent.querySelector("input, textarea").classList.remove("uk-form-danger");
+  };
+
+  const contactFormValidations = (e) => {
+    const elm = e.target;
+    const parent = elm.closest(".contact-form-control");
+    removePastAlert(parent);
+
+    const regexp = new RegExp(elm.dataset.regexp);
+    if (!regexp.test(elm.value)) {
+      parent.insertAdjacentHTML(
+        "beforeend",
+        contactFormInvalidMessage(elm.dataset.message)
+      );
+      UIkit.alert(parent.querySelector(".contact-form-alert"));
+      parent.querySelector("input, textarea").classList.add("uk-form-danger");
+    }
+  };
+
   // Set global methods
   window.__customMethods = {};
   window.__customMethods.setLoadingSpinner = setLoadingSpinner;
 
-  // EventListener
+  // onLoad
   window.addEventListener("DOMContentLoaded", () => {
-    for (let i = 0, len = elms.length; i < len; i++)
-      elms[i].addEventListener("click", setLoadingSpinner);
+    // HTMLElement variables
+    const loadingTrigger = document.getElementsByClassName("loading-trigger");
+    const contactForm = document.forms.contactForm;
+
+    // SetEventListener
+    for (let i = 0, len = loadingTrigger.length; i < len; i++)
+      loadingTrigger[i].addEventListener("click", setLoadingSpinner);
+
+    if (contactForm) {
+      contactForm.querySelectorAll("input, textarea").forEach((elm) => {
+        elm.addEventListener("blur", contactFormValidations);
+      });
+    }
   });
 })();

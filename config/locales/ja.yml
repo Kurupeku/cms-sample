@@ -227,5 +227,8 @@ ja:
       truncate: "&hellip;"
   utilities:
     all_posts: 記事一覧
+    posted_date: 投稿日
+    updated_date: 更新日
     per: 表示件数
     none: なし
+    uncategorized: 未分類

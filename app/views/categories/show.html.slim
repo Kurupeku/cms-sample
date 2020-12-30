@@ -1,11 +1,14 @@
-- breadcrumb :category, @category
+- if @category.present?
+  - breadcrumb :category, @category
+- else
+  - breadcrumb :uncategorized
 = render partial: 'layouts/partials/breadcrumbs'
 
-p
-  strong Parent:
-  = @category.parent
-p
-  strong Name:
-  = @category.name
+#articles-sorting-container
+  = render partial: 'articles/sort_tabs'
 
-=< link_to 'Back', categories_path
+section#articles-container.uk-grid-medium uk-grid=""
+  = render partial: 'articles/article_card', collection: @articles, as: 'article'
+
+#articles-paginate-container.uk-flex.uk-flex-center.uk-margin-top
+  = paginate @articles, remote: true

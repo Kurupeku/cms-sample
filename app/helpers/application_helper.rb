@@ -52,4 +52,14 @@ module ApplicationHelper
           end
     [url, '&per=', per].join
   end
+
+  def side_menu_available?
+    @article.present? || @articles.present?
+  end
+
+  def main_area_classes
+    return 'uk-width-3-4@m' if side_menu_available?
+
+    'uk-width-1-1'
+  end
 end

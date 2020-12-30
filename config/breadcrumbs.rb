@@ -7,6 +7,11 @@ crumb :article do |article|
   parent :root, article
 end
 
+crumb :contact do
+  link t('contacts.new.title'), '/contacts/new'
+  parent :root
+end
+
 crumb :categories do
   link Category.model_name.human, categories_path
   parent :root
@@ -14,6 +19,11 @@ end
 
 crumb :category do |category|
   link category.name, category_path(category)
+  parent :categories
+end
+
+crumb :uncategorized do
+  link t('utilities.uncategorized'), '/categories/0'
   parent :categories
 end
 

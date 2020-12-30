@@ -31,7 +31,7 @@ class Article < ApplicationRecord
   has_rich_text :content
 
   # scope
-  default_scope { published }
+  default_scope { published.post }
 
   # overriting inherited method to use slug in url_helper
   def to_param
