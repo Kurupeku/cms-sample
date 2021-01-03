@@ -1,0 +1,47 @@
+body {
+  background: -webkit-linear-gradient(top right, #e2e8e6 0%, #cdd3cd 100%),
+    -webkit-linear-gradient(right, rgba(255, 255, 255, 0.12) 0%, rgba(
+            0,
+            0,
+            0,
+            0.12
+          )
+          100%);
+  background: linear-gradient(to bottom left, #e2e8e6 0%, #cdd3cd 100%),
+    linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+  background-blend-mode: screen;
+}
+
+.article {
+  table:not(.native) {
+    @extend .uk-table;
+    &.borderd {
+      @extend .uk-table-divider;
+    }
+    &.striped {
+      @extend .uk-table-striped;
+    }
+    &.hover {
+      @extend .uk-table-hover;
+    }
+  }
+
+  .button {
+    @extend .uk-button;
+    @extend .uk-button-text;
+    &:not(.block) {
+      color: $global-secondary-background !important;
+    }
+
+    &.block {
+      @extend .uk-light;
+      background-color: $global-secondary-background;
+      display: block;
+      padding: 8px;
+    }
+  }
+}

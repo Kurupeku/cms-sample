@@ -119,6 +119,7 @@ end
 #  id                :bigint           not null, primary key
 #  article_type      :integer          default("post"), not null
 #  comments_count    :integer          default(0), not null
+#  content           :text             default(""), not null
 #  impressions_count :integer          default(0), not null
 #  opening_sentence  :string           default("")
 #  published_at      :datetime

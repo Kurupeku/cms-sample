@@ -1,4 +1,6 @@
 class Article < ApplicationRecord
+  TAG_REGEXP = %r{</?[^>]+?>}.freeze
+
   # gem settings
   is_impressionable counter_cache: true, column_name: :impressions_count, unique: true
 
@@ -27,9 +29,6 @@ class Article < ApplicationRecord
   # use active storage
   has_one_attached :cover
 
-  # use action text
-  has_rich_text :content
-
   # scope
   default_scope { published.post }
 
@@ -45,9 +44,9 @@ class Article < ApplicationRecord
   end
 
   def set_opening_sentence
-    return if content&.body.blank?
+    return if content.blank?
 
-    self.opening_sentence = content.body.to_plain_text.byteslice 0, 40
+    self.opening_sentence = content.gsub(TAG_REGEXP, '').truncate 40
   end
 
   def set_published_at
@@ -70,6 +69,7 @@ end
 #  id                :bigint           not null, primary key
 #  article_type      :integer          default("post"), not null
 #  comments_count    :integer          default(0), not null
+#  content           :text             default(""), not null
 #  impressions_count :integer          default(0), not null
 #  opening_sentence  :string           default("")
 #  published_at      :datetime

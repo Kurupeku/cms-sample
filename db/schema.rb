@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2020_11_22_055709) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title", default: "", null: false
+    t.text "content", default: "", null: false
     t.string "opening_sentence", default: ""
     t.integer "status", default: 0, null: false
     t.integer "article_type", default: 0, null: false

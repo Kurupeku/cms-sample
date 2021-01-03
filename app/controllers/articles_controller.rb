@@ -16,7 +16,9 @@ class ArticlesController < ApplicationController
   end
 
   # GET /articles/1
-  def show; end
+  def show
+    @content_html = @article.content.html_safe
+  end
 
   private
 

@@ -26,7 +26,6 @@ article.article-card.uk-animation-slide-bottom-medium class="uk-width-1-2@m"
               object
                 = link_to article.category.name, category_path(article.category), class: 'uk-link-text'
             - else
-              span.uk-link-text.uk-display-inline-block.uk-margin-small-left
               = t 'utilities.none'
 
         div.uk-grid-collapse	uk-grid=""
@@ -37,6 +36,9 @@ article.article-card.uk-animation-slide-bottom-medium class="uk-width-1-2@m"
             - article.tags.map do |tag|
               object
                 = link_to tag.name, tag_path(tag), class: 'uk-badge uk-display-inline-block uk-margin-small-right'
+
+            - if article.tags.length.zero?
+              = t 'utilities.none'
 
         p
           = article.opening_sentence

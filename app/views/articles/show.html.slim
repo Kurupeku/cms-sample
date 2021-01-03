@@ -1,27 +1,34 @@
 - breadcrumb :article, @article
 = render partial: 'layouts/partials/breadcrumbs'
 
-p
-  strong Author ID:
-  = @article.author_id
+article.article.uk-article.uk-card.uk-card-default.uk-card-body
 
-p
-  strong Title:
-  = @article.title
-p
-  strong Content:
-  = @article.content
-p
-  strong Published at:
-  = @article.published_at
-p
-  strong Status:
-  = @article.status
-p
-  strong Article type:
-  = @article.article_type
-p
-  strong Slug:
-  = @article.slug
+  h1.uk-article-title
+    = @article.title
 
-=< link_to 'Back', root_path
+  p.uk-article-meta
+    span.uk-display-inline-block.uk-margin-small-right
+      = Article.human_attribute_name(:updated_at) + ':'
+    span
+      = l @article.updated_at
+    br
+    span.uk-display-inline-block.uk-margin-small-right
+      = Category.model_name.human + ':'
+    - if @article.category
+      = link_to @article.category.name, category_path(@article.category), class: 'uk-link-text'
+    - else
+      = t 'utilities.none'
+    br
+    span.uk-display-inline-block.uk-margin-small-right
+      = Tag.model_name.human + ':'
+    - @article.tags.map.with_index do |tag, i|
+      - unless i.zero?
+        span.uk-display-inline-block.uk-margin-small-right
+          = "/"
+      = link_to tag.name, tag_path(tag), class: 'uk-display-inline-block uk-margin-small-right'
+    - if @article.tags.length.zero?
+      = t 'utilities.none'
+
+  = @content_html
+
+=< link_to t('buttons.back'), 'javascript:history.back()'
