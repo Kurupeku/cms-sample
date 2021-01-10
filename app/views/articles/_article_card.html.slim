@@ -4,9 +4,9 @@ article.article-card.uk-animation-slide-bottom-medium class="uk-width-1-2@m"
     .uk-card.uk-card-default.uk-card-hover
       .article-medium.uk-card-media-top
         - if article.cover.attached?
-          = image_tag article.cover
+          = image_tag article.cover, alt: "thumb-#{article.id}", width: 430, height: 250, loading: 'lazy'
         - else
-          = image_pack_tag 'no_image.jpg'
+          = image_pack_tag 'no_image.jpg', alt: "thumb-#{article.id}", width: 430, height: 250, loading: 'lazy'
 
       .uk-card-body
         h2.uk-card-title.uk-margin-remove-bottom

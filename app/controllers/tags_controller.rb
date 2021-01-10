@@ -10,7 +10,7 @@ class TagsController < ApplicationController
 
   # GET /tags/1
   def show
-    @search = @tag.articles.ransack params[:q]
+    @search = @tag.articles.published.post.ransack params[:q]
     @articles = @search.result.page(@page).per(@per)
     respond_to do |format|
       format.html

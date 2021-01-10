@@ -1,0 +1,8 @@
+- if @content_html
+  section#article-toc.uk-card.uk-card-default.uk-padding-small.uk-margin
+    h5.uk-card-title
+      = t 'utilities.table_of_content'
+    ul.uk-list.uk-list-divider.uk-list-collapse
+      - generate_toc_array.map do |head|
+        li
+          = link_to head[:title], "##{head[:id]}", class: "toc-link toc-p-#{head[:indent]}"

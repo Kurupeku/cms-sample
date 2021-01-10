@@ -29,12 +29,17 @@ class Article < ApplicationRecord
   # use active storage
   has_one_attached :cover
 
-  # scope
-  default_scope { published.post }
-
   # overriting inherited method to use slug in url_helper
   def to_param
     slug
+  end
+
+  def previous
+    Article.published.post.where('published_at < ?', published_at).order(published_at: :desc).first
+  end
+
+  def next
+    Article.published.post.where('published_at > ?', published_at).order(published_at: :asc).first
   end
 
   private

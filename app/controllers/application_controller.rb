@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def static_page_menus
-    Article.unscoped.published.static.map do |article|
+    Article.published.static.map do |article|
       { label: article.title, path: article_path(article) }
     end
   end

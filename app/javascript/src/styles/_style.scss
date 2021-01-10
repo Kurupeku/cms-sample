@@ -16,7 +16,7 @@ body {
   background-blend-mode: screen;
 }
 
-.article {
+#article {
   table:not(.native) {
     @extend .uk-table;
     &.borderd {

@@ -227,6 +227,7 @@ ja:
       truncate: "&hellip;"
   utilities:
     all_posts: 記事一覧
+    table_of_content: 目次
     posted_date: 投稿日
     updated_date: 更新日
     per: 表示件数

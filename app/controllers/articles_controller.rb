@@ -4,10 +4,11 @@ class ArticlesController < ApplicationController
   before_action :set_default_ransack, only: %i[index]
   before_action :set_page_params, only: %i[index]
   before_action :set_article_by_slug, only: %i[show]
+  before_action :set_previous_and_next_article, only: %i[show]
 
   # GET /articles
   def index
-    @search = Article.all.ransack params[:q]
+    @search = Article.published.post.ransack params[:q]
     @articles = @search.result.page(@page).per(@per)
     respond_to do |format|
       format.html
@@ -24,7 +25,7 @@ class ArticlesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_article_by_slug
-    @article = Article.find_by! slug: params[:id]
+    @article = Article.published.post.find_by! slug: params[:id]
   end
 
   # Only allow a trusted parameter "white list" through.
@@ -50,5 +51,10 @@ class ArticlesController < ApplicationController
   def set_page_params
     @page = (params[:page] || 1).to_i
     @per = (params[:per] || 10).to_i
+  end
+
+  def set_previous_and_next_article
+    @previous_article = @article.previous
+    @next_article = @article.next
   end
 end

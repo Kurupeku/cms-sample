@@ -56,6 +56,19 @@ RSpec.describe Article, type: :model do
     end
   end
 
+  context '更新日を基準に公開済みの前後の記事を取得する関数の動作確認' do
+    let(:articles) { create_list :article, 3, status: 1 }
+    let(:base_article) { articles.second }
+
+    it '前の記事を取得する' do
+      expect(base_article.previous).to eq articles.first
+    end
+
+    it '次の記事を取得する' do
+      expect(base_article.next).to eq articles.last
+    end
+  end
+
   context '依存削除の動作確認' do
     it 'Article インスタンスが削除された場合、関連する Comment も削除される' do
       article = create :article
@@ -76,10 +89,11 @@ RSpec.describe Article, type: :model do
 
   context 'set_opening_sentence の動作確認' do
     let(:content_string) { 'sample content text.' * 10 }
+    reg = %r{</?[^>]+?>}.freeze
 
     it 'content が登録された際に、先頭40byte文の文章が opening_sentence に登録される' do
       article = create :article, content: content_string
-      expect(article.opening_sentence).to eq content_string.byteslice(0, 40)
+      expect(article.opening_sentence).to eq content_string.gsub(reg, '').truncate(40)
     end
   end
 

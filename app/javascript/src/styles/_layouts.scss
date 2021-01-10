@@ -63,3 +63,43 @@ ul#articles-sort-list > li {
     }
   }
 }
+
+#article {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .article-cover-img {
+    width: 100%;
+  }
+
+  #article-body {
+    width: 100%;
+  }
+}
+
+#article-toc {
+  position: sticky;
+  top: 20px;
+
+  .toc-p-1 {
+    padding-left: 1rem;
+  }
+
+  .toc-p-2 {
+    padding-left: 2rem;
+  }
+
+  .toc-p-3 {
+    padding-left: 3rem;
+  }
+
+  .toc-p-4 {
+    padding-left: 4rem;
+  }
+
+  .toc-p-5 {
+    padding-left: 5rem;
+  }
+}

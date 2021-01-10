@@ -11,9 +11,9 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   def show
     @search = if @category.present?
-                @category.articles
+                @category.articles.published.post
               else
-                Article.where category_id: nil
+                Article.published.post.where category_id: nil
               end.ransack params[:q]
     @articles = @search.result.page(@page).per(@per)
     respond_to do |format|
