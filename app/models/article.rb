@@ -42,6 +42,10 @@ class Article < ApplicationRecord
     Article.published.post.where('published_at > ?', published_at).order(published_at: :asc).first
   end
 
+  def comments_choices
+    comments.published.order(number: :asc).pluck(:number, :id).map { |arr| ["No.#{arr[0]}", arr[1]] }
+  end
+
   private
 
   def not_add_to_parent_category

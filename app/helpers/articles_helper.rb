@@ -12,6 +12,10 @@ module ArticlesHelper
     result
   end
 
+  def render_deep_comments(comment)
+    comment_html(comment).html_safe
+  end
+
   private
 
   ASCII_REGEXP = %r{[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]}.freeze
@@ -33,5 +37,65 @@ module ArticlesHelper
       acc.concat CGI.escape(char)
     end
     acc
+  end
+
+  def comment_html(comment, deep = 0)
+    <<~"HTML"
+      #{comment_main_html comment, deep}
+      #{comment.children.map { |child| comment_html child, deep + 1 }.join}
+    HTML
+  end
+
+  def comment_main_html(comment, deep)
+    <<~"HTML"
+      <li id="comment-#{comment.number}" #{deep.positive? ? "class=\"comment-p-#{deep}\"" : ''}>
+        <div class="uk-flex uk-position-relative">
+          <div class="uk-margin-right">
+            <a href="#" class="reply-to-link uk-link" data-target="#{comment.id}">No. #{comment.number}</a>
+          </div>
+          <div class="uk-margin-right">#{comment.author_name}</div>
+          <div>#{l comment.created_at}</div>
+        </div>
+        <div class="uk-padding-small uk-padding-remove-horizontal">
+          #{parent_comment_link comment.parent}
+          #{comment.content}
+        </div>
+      </li>
+    HTML
+  end
+
+  def parent_comment_link(parent)
+    return '' if parent.blank?
+
+    <<~"HTML"
+      <div class="uk-inline uk-width-expand">
+        <button
+          type="button"
+          class="uk-button uk-button-text"
+        >
+          >>#{parent.number}
+        </button >
+        <div class="uk-width-expand" uk-drop="mode: click">
+          #{parent_card_html parent}
+        </div>
+      </div><br>
+    HTML
+  end
+
+  def parent_card_html(parent)
+    <<~"HTML"
+      <div class="uk-card uk-card-default uk-card-body uk-box-shadow-xlarge">
+        <button class="uk-drop-close uk-position-small uk-position-top-right" type="button" uk-close></button>
+        <div class="uk-flex uk-text-meta">
+          <div class="uk-margin-right">No. #{parent.number}</div>
+          <div class="uk-margin-right">#{parent.author_name}</div>
+          <div>#{l parent.created_at}</div>
+        </div>
+        <div class="uk-padding-small uk-padding-remove-horizontal">
+          #{parent_comment_link parent.parent}
+          #{parent.content}
+        </div>
+      </div>
+    HTML
   end
 end

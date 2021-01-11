@@ -16,6 +16,17 @@ body {
   background-blend-mode: screen;
 }
 
+#notification {
+  .global-notice {
+    // color: $global-inverse-color;
+    // background-color: $global-success-background;
+  }
+}
+
+#to-top-button {
+  color: #fff;
+}
+
 #article {
   table:not(.native) {
     @extend .uk-table;

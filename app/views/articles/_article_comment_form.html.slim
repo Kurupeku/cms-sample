@@ -1,0 +1,26 @@
+= form_with model: @comment, url: article_comments_path(@article), id: 'comment-form', class: 'validation-form uk-margin-large-bottom' do |f|
+  = f.hidden_field :article_id
+
+  .comment-form-control.uk-grid-collapse.uk-margin uk-grid=""
+    div class="uk-width-1-4@m"
+      .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
+        = f.label :parent_id, class: 'uk-text-bolder'
+    div class="uk-width-3-4@m"
+      = f.select :parent_id, @article.comments_choices, { include_blank: t('utilities.none') }, id: 'comment-reply-select', class: 'uk-select'
+
+  .comment-form-control.uk-grid-collapse.uk-margin uk-grid=""
+    div class="uk-width-1-4@m"
+      .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
+        = f.label :author_name, t('utilities.your_name'), class: 'uk-text-bolder'
+    div class="uk-width-3-4@m"
+      = f.text_field :author_name, class: 'uk-input'
+
+  .comment-form-control.validation-target.uk-grid-collapse.uk-margin uk-grid=""
+    div class="uk-width-1-4@m"
+      .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
+        = f.label :content, class: 'uk-text-bolder'
+    div class="uk-width-3-4@m"
+      = f.text_area :content, class: 'uk-textarea uk-height-small', data: { regexp: '[亜-熙ぁ-んァ-ヶ]+', message: t('validations.require_japanese') }
+
+  .uk-flex.uk-flex-center
+    = f.submit t('buttons.comment_submit'), id: 'comment-form-submit', class: 'uk-button uk-button-primary uk-width-1-1', disabled: true

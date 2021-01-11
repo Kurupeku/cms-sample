@@ -124,6 +124,15 @@ RSpec.describe Article, type: :model do
       expect(before_time).to eq article.published_at
     end
   end
+
+  context 'comments_choices の動作確認' do
+    it '関連付けられた Comment の一覧を number 昇順にソートし、[select の表示名, select の value] 形式で取得する関数' do
+      article = create :article, status: :draft
+      create_list :comment, 10, article: article
+      last_comment = article.comments.last
+      expect(article.comments_choices.last).to eq ["No.#{last_comment.number}", last_comment.id]
+    end
+  end
 end
 
 # == Schema Information

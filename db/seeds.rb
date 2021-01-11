@@ -7,7 +7,7 @@ module DevelopmentSeeds
   FactoryBot.definition_file_paths = [Rails.root.join('spec', 'factories')]
   FactoryBot.reload
 
-  @table_names = %w[articles tags]
+  @table_names = %w[articles tags comments]
 
   module_function
 

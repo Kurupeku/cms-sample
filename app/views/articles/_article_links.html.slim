@@ -1,0 +1,9 @@
+.article-last-links.uk-flex.uk-flex-wrap-between
+  .prev-link.uk-width-1-3.uk-text-left
+    - if @previous_article.present?
+      = link_to @previous_article.title, article_path(@previous_article), class: 'uk-button uk-button-text'
+  .back-link.uk-width-1-3.uk-text-center
+    = link_to t('buttons.back'), 'javascript:history.back()', class: 'uk-button uk-button-text'
+  .next-link.uk-width-1-3.uk-text-right
+    - if @next_article.present?
+      = link_to @next_article.title, article_path(@next_article), class: 'uk-button uk-button-text'

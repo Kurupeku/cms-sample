@@ -20,10 +20,17 @@ RSpec.describe Comment, type: :model do
       expect(comment.errors.key?(:content)).to be true
     end
 
-    it 'content が空文字の場合、無効になる' do
-      comment = build :comment, content: ''
+    it 'content が日本語を含まない場合、無効になる' do
+      comment = build :comment, content: 'sample content'
       comment.valid?
       expect(comment.errors.key?(:content)).to be true
+    end
+  end
+
+  context 'scope の動作確認' do
+    it 'primary は返信先が設定されていないトップコメントのみを取得する' do
+      create :comment, :with_nested_children
+      expect(Comment.primary.size).to eq 1
     end
   end
 
@@ -38,6 +45,14 @@ RSpec.describe Comment, type: :model do
       comment = build :comment, author_name: ''
       comment.valid?
       expect(comment.author_name).to eq '匿名ユーザー'
+    end
+  end
+
+  context '関数 set_number_for_article の動作確認' do
+    it '記事ごとに 1 から昇順で number が割り振られる' do
+      article = create :article
+      comments = create_list :comment, 3, article: article
+      expect(comments.last.number).to eq 3
     end
   end
 
@@ -67,19 +82,23 @@ end
 #  author_name  :string           default(""), not null
 #  author_url   :string           default(""), not null
 #  content      :text             default(""), not null
+#  number       :integer
 #  status       :integer          default("published"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  article_id   :bigint           not null
+#  parent_id    :bigint
 #  user_id      :bigint
 #
 # Indexes
 #
 #  index_comments_on_article_id  (article_id)
+#  index_comments_on_parent_id   (parent_id)
 #  index_comments_on_user_id     (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (article_id => articles.id)
+#  fk_rails_...  (parent_id => comments.id)
 #  fk_rails_...  (user_id => users.id)
 #

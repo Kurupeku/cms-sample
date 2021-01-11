@@ -10,7 +10,6 @@ class Category < ApplicationRecord
   has_many :articles, dependent: :nullify
 
   # scope
-  scope :joins_children, -> { left_outer_joins(:children).references(:children) }
   scope :has_children, lambda {
     left_outer_joins(:children)
       .references(:children)

@@ -1,6 +1,6 @@
 - unless flash.count.zero?
-  #notification
+  #notification.uk-box-shadow-bottom
     - flash.each do |key, value|
-        div class="#{uk_alert_class_name key}" uk-alert=""
-          a.uk-alert-close uk-close=""
+        div class="global-notice uk-box-shadow-xlarge uk-dark #{uk_alert_class_name key}" uk-alert=""
+          a.uk-alert-close.uk-dark uk-close=""
           = content_tag :p, value

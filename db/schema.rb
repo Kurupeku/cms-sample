@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_22_055709) do
+ActiveRecord::Schema.define(version: 2021_01_11_054437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,7 +95,10 @@ ActiveRecord::Schema.define(version: 2020_11_22_055709) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "number"
+    t.bigint "parent_id"
     t.index ["article_id"], name: "index_comments_on_article_id"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -160,6 +163,7 @@ ActiveRecord::Schema.define(version: 2020_11_22_055709) do
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "comments", "articles"
+  add_foreign_key "comments", "comments", column: "parent_id"
   add_foreign_key "comments", "users"
   add_foreign_key "profiles", "users"
 end

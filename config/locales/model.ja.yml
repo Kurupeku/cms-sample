@@ -24,6 +24,7 @@ ja:
         name: カテゴリ名
         articles_count: 記事数
       comment:
+        parent_id: 返信先
         author_name: 投稿者
         content: 内容
         status: ステータス

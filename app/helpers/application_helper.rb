@@ -33,7 +33,7 @@ module ApplicationHelper
   def uk_alert_class_name(key)
     return '' unless DEFINED_ALERT_KEYS.include?(key)
 
-    "uk-alert-#{key}"
+    "uk-background-#{key}"
   end
 
   def check_uk_active_sort_tab(sym)

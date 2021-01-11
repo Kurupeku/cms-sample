@@ -7,6 +7,8 @@ import UIkit from "uikit";
 
   const mediaQuery_lt_md = matchMedia("(max-width: 640px)");
 
+  const scrollToTopButtonThreshold = 300;
+
   // Methods
   const setLoadingSpinner = (e) => {
     const currentElm = e.target;
@@ -19,16 +21,33 @@ import UIkit from "uikit";
     }
   };
 
-  const contactFormInvalidMessage = (message) => {
+  const toggleToTopButton = (elm) => {
+    if (!elm) return;
+
+    const classList = elm.classList;
+    if (
+      !classList.contains("show") &&
+      window.pageYOffset > scrollToTopButtonThreshold
+    ) {
+      classList.add("show");
+    } else if (
+      classList.contains("show") &&
+      window.pageYOffset <= scrollToTopButtonThreshold
+    ) {
+      classList.remove("show");
+    }
+  };
+
+  const formInvalidMessage = (message) => {
     return `\
-      <div class="contact-form-alert uk-alert-danger uk-width-1-1 uk-text-right uk-padding-small" uk-alert>
+      <div class="form-alert uk-alert-danger uk-width-1-1 uk-text-right uk-padding-small" uk-alert>
         <p>${message}</p>
       </div>`;
   };
 
   const removePastAlert = (parent) => {
     if (parent) {
-      const pastAlert = parent.querySelector(".contact-form-alert");
+      const pastAlert = parent.querySelector(".form-alert");
       pastAlert && pastAlert.remove();
       parent
         .querySelector("input, textarea")
@@ -36,26 +55,26 @@ import UIkit from "uikit";
     }
   };
 
-  const contactFormValidations = (e) => {
+  const formValidations = (e) => {
     const elm = e.target;
-    const parent = elm.closest(".contact-form-control");
+    const parent = elm.closest(".validation-target");
     removePastAlert(parent);
 
     const regexp = new RegExp(elm.dataset.regexp);
     if (!regexp.test(elm.value)) {
       parent.insertAdjacentHTML(
         "beforeend",
-        contactFormInvalidMessage(elm.dataset.message)
+        formInvalidMessage(elm.dataset.message)
       );
-      UIkit.alert(parent.querySelector(".contact-form-alert"));
+      UIkit.alert(parent.querySelector(".form-alert"));
       parent.querySelector("input, textarea").classList.add("uk-form-danger");
     }
   };
 
-  const handleContactFormDisableSubmit = () => {
+  const handleFormDisableSubmit = () => {
     const result = [];
-    const form = document.getElementById("contactForm");
-    const submit = document.getElementById("contactFormSubmit");
+    const form = document.querySelector(".validation-form");
+    const submit = form.querySelector('input[type="submit"]');
 
     form.querySelectorAll("input, textarea").forEach((elm) => {
       const regexp = new RegExp(elm.dataset.regexp);
@@ -67,15 +86,14 @@ import UIkit from "uikit";
     submit.disabled = result.some((invalid) => invalid);
   };
 
-  const submitContactForm = () => {
-    const form = document.getElementById("contactForm");
+  const clearFromAlert = () => {
+    const form = document.querySelector(".validation-form");
 
-    form.querySelectorAll(".contact-form-control").forEach((elm) => {
+    form.querySelectorAll(".validation-target").forEach((elm) => {
       removePastAlert(elm);
-    });
-
-    form.querySelectorAll("input, textarea").forEach((elm) => {
-      elm.classList.remove("uk-form-danger");
+      elm.querySelectorAll("input, textarea").forEach((elm) => {
+        elm.classList.remove("uk-form-danger");
+      });
     });
   };
 
@@ -86,19 +104,24 @@ import UIkit from "uikit";
     });
   };
 
+  const scrollToElm = (elm, slip) => {
+    if (!slip) slip = 0;
+    const rect = elm.getBoundingClientRect();
+    const targetTop = rect.top + window.pageYOffset + slip;
+    window.scrollTo({
+      top: targetTop,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
   const moveToHead = (e) => {
     e.preventDefault();
     const targetId = e.target.href;
     if (targetId) {
       const idStr = targetId.replace(/^.*#/, "");
       const targetElm = document.getElementById(idStr);
-      const rect = targetElm.getBoundingClientRect();
-      const targetTop = rect.top + window.pageYOffset;
-      window.scrollTo({
-        top: targetTop,
-        left: 0,
-        behavior: "smooth",
-      });
+      scrollToElm(targetElm, -20);
     }
   };
 
@@ -121,26 +144,44 @@ import UIkit from "uikit";
     }
   };
 
+  const setCommentParent = (e) => {
+    e.preventDefault();
+    const targetId = e.target.dataset.target;
+    if (targetId) {
+      const select = document.getElementById("comment-reply-select");
+      select.value = targetId;
+      scrollToElm(select, -60);
+    }
+  };
+
   // Set global methods
   window.__customMethods = {};
   window.__customMethods.setLoadingSpinner = setLoadingSpinner;
 
   // SetEventListener
-  window.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("turbolinks:load", () => {
+    const toTopButton = document.getElementById("to-top-button");
     const loadingTrigger = document.getElementsByClassName("loading-trigger");
-    const contactForm = document.forms.contactForm;
+    const validationForm = document.querySelector(".validation-form");
     const article = document.getElementById("article");
+    const replyLinks = document.querySelectorAll(".reply-to-link");
+
+    toggleToTopButton(toTopButton);
+
+    window.addEventListener("scroll", () => {
+      toggleToTopButton(toTopButton);
+    });
 
     for (let i = 0, len = loadingTrigger.length; i < len; i++)
       loadingTrigger[i].addEventListener("click", setLoadingSpinner);
 
-    if (contactForm) {
-      contactForm.querySelectorAll("input, textarea").forEach((elm) => {
-        elm.addEventListener("blur", contactFormValidations);
-        elm.addEventListener("blur", handleContactFormDisableSubmit);
+    if (validationForm) {
+      validationForm.querySelectorAll("input, textarea").forEach((elm) => {
+        elm.addEventListener("blur", formValidations);
+        elm.addEventListener("blur", handleFormDisableSubmit);
       });
 
-      contactForm.addEventListener("submit", submitContactForm);
+      validationForm.addEventListener("submit", clearFromAlert);
     }
 
     if (article) {
@@ -152,6 +193,11 @@ import UIkit from "uikit";
       adjustArticleTables(mediaQuery_lt_md);
 
       mediaQuery_lt_md.addListener(adjustArticleTables);
+
+      replyLinks &&
+        replyLinks.forEach((elm) => {
+          elm.addEventListener("click", setCommentParent);
+        });
     }
   });
 })();

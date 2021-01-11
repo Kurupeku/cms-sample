@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   resources :tags, only: %i[index show]
   resources :categories, only: %i[index show]
-  resources :comments, only: %i[index show create]
   resources :profiles, only: %i[index show]
   devise_for :users
-  resources :articles, only: [:show]
+  resources :articles, only: [:show] do
+    resources :comments, only: %i[create]
+  end
   get 'contacts', to: 'contacts#new'
   post 'contacts', to: 'contacts#create'
   root to: 'articles#index'

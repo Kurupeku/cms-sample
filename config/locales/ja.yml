@@ -225,7 +225,12 @@ ja:
       next: "次 &rsaquo;"
       previous: "&lsaquo; 前"
       truncate: "&hellip;"
+  validations:
+    require: 必須の項目です
+    require_japanese: 日本語を1文字以上含む必要があります
+    email_validation: 不正なメールアドレスです
   utilities:
+    your_name: お名前
     all_posts: 記事一覧
     table_of_content: 目次
     posted_date: 投稿日
@@ -233,5 +238,10 @@ ja:
     per: 表示件数
     none: なし
     uncategorized: 未分類
+  notice:
+    create_comment: コメントを投稿しました
+    failed_to_create_comment: コメントの投稿に失敗しました
   buttons:
+    submit: この内容で送信する
+    comment_submit: この内容でコメントする
     back: 戻る

@@ -1,0 +1,9 @@
+section#article-comments.uk-card.uk-card-default.uk-card-body.uk-margin-large-top
+  h5.uk-card-title
+    = Comment.model_name.human
+
+  = render partial: 'article_comment_form'
+
+  ul.uk-list.uk-list-divider
+    - @article.comments.primary.sorted_by_created_at.map do |comment|
+      = render_deep_comments comment
