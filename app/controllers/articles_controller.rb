@@ -10,6 +10,7 @@ class ArticlesController < ApplicationController
   def index
     @search = Article.published.post.ransack params[:q]
     @articles = @search.result.page(@page).per(@per)
+    define_side_menu_models
     respond_to do |format|
       format.html
       format.js
@@ -18,6 +19,8 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1
   def show
+    define_side_menu_models
+    impressionist(@article)
     @content_html = @article.content.html_safe
     @comment = @article.comments.build
   end

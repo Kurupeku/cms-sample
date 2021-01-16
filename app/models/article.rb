@@ -29,6 +29,17 @@ class Article < ApplicationRecord
   # use active storage
   has_one_attached :cover
 
+  # scope
+  scope :recent_populars, lambda { |span, limit|
+    left_joins(:impressions)
+      .post
+      .where('impressions.created_at >= ?', Time.zone.now - span.day)
+      .group(:id, :title)
+      .order(recent_count: :desc)
+      .limit(limit)
+      .select('"articles".*, COUNT("impressions".id) AS recent_count')
+  }
+
   # overriting inherited method to use slug in url_helper
   def to_param
     slug

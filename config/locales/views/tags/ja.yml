@@ -1,0 +1,7 @@
+ja:
+  tags:
+    index:
+      title: タグ一覧
+
+    show:
+      title: "%{name}タグの記事一覧"

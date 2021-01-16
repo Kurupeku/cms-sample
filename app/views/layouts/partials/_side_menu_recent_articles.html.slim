@@ -1,0 +1,8 @@
+- if @setting.anable_recent_popular
+  section.uk-card.uk-card-default.uk-padding-small.uk-margin
+    h5.uk-card-title
+      = t 'utilities.recent_popular_posts'
+    ul.uk-list.uk-list-divider
+      - @side_menu[:recent_popular_articles].map do |article|
+        li
+          = link_to article.title, article_path(article), class: 'uk-link-text'

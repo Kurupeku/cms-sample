@@ -2,24 +2,22 @@ doctype html
 html lang="ja"
   head
     title
-      | App
+      = full_title yield(:title)
     meta content="width=device-width, initial-scale=1.0" name="viewport"
     = csrf_meta_tags
     = csp_meta_tag
-    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
+    = favicon_link_tag '/favicon.ico'
+    = stylesheet_link_tag 'https://fonts.googleapis.com/icon?family=Material+Icons'
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
+    = render partial: 'layouts/partials/main_cover'
     = render partial: 'layouts/partials/header'
-    #main-container class="uk-container#{side_menu_available? ? "" : " uk-container-small"}#{request.path == '/' ? "" : " breadcrumbs-padding"}"
+    #main-container class="#{main_container_classes}"
       div uk-grid=""
         div class="#{main_area_classes}"
           = yield
-        - if side_menu_available?
-          div class="uk-visible@m uk-width-1-4@m"
-            = render partial: 'layouts/partials/side_menu_categories'
-            = render partial: 'layouts/partials/side_menu_tags'
-            = render partial: 'layouts/partials/side_menu_table_of_content'
-      a#to-top-button.uk-button.uk-button-primary.uk-border-circle.uk-animation-slide-bottom href="#" uk-totop="" uk-scroll=""
+        = render partial: 'layouts/partials/side_menu'
+      = render partial: 'layouts/partials/to_top_button'
     = render partial: 'layouts/partials/footer'
     = render partial: "layouts/partials/notification"

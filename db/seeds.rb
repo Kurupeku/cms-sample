@@ -7,7 +7,7 @@ module DevelopmentSeeds
   FactoryBot.definition_file_paths = [Rails.root.join('spec', 'factories')]
   FactoryBot.reload
 
-  @table_names = %w[articles tags comments]
+  @table_names = %w[settings articles tags comments]
 
   module_function
 
@@ -20,6 +20,14 @@ module DevelopmentSeeds
       end
     end
   end
+end
+
+unless Setting.find_by id: 1
+  Setting.create! site_title: 'Sample App',
+                  anable_main_cover: false,
+                  anable_recent_comments: false,
+                  anable_recent_popular: false,
+                  recent_popular_span: 7
 end
 
 DevelopmentSeeds.create if Rails.env.development?

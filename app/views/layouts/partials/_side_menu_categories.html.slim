@@ -2,7 +2,7 @@ section.uk-card.uk-card-default.uk-padding-small.uk-margin
   h5.uk-card-title
     = Category.model_name.human
   ul.uk-list.uk-list-divider uk-accordion=""
-    - @side_menu_categories.map do |category|
+    - @side_menu[:categories].map do |category|
       li
         - if category.parent?
           = link_to category.name, "#", class: 'uk-accordion-title uk-text-default uk-link-text'
@@ -14,5 +14,6 @@ section.uk-card.uk-card-default.uk-padding-small.uk-margin
                   = link_to "#{child.name} (#{child.articles_count})", category_path(child), class: 'uk-link-text'
         - else
           = link_to "#{category.name} (#{category.articles_count})", category_path(category), class: 'uk-link-text'
-    li
-      = link_to "#{t('utilities.uncategorized')} (#{@side_menu_uncategorized_articles_count})", '/categories/0', class: 'uk-link-text'
+    - if @side_menu[:uncategorized_articles_count]&.positive?
+      li
+        = link_to "#{t('utilities.uncategorized')} (#{@side_menu[:uncategorized_articles_count]})", '/categories/0', class: 'uk-link-text'

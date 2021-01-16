@@ -10,6 +10,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/1
   def show
+    define_side_menu_models
     @search = if @category.present?
                 @category.articles.published.post
               else

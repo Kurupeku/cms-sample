@@ -1,8 +1,12 @@
 class ApplicationController < ActionController::Base
+  prepend_before_action :set_setting
   before_action :define_menu_variables
-  before_action :define_side_menu_models
 
   private
+
+  def set_setting
+    @setting = Setting.first
+  end
 
   def define_menu_variables
     @menus = [
@@ -21,8 +25,16 @@ class ApplicationController < ActionController::Base
   end
 
   def define_side_menu_models
-    @side_menu_categories = Category.positive_parent
-    @side_menu_uncategorized_articles_count = Article.where(category_id: nil).size
-    @side_menu_tags = Tag.positive
+    @side_menu = {
+      categories: Category.positive_parent,
+      uncategorized_articles_count: Article.where(category_id: nil).size,
+      tags: Tag.positive,
+      recent_popular_articles: Article.recent_populars(@setting.recent_popular_span, 5)
+    }
+
+    # @side_menu_categories = Category.positive_parent
+    # @side_menu_uncategorized_articles_count = Article.where(category_id: nil).size
+    # @side_menu_tags = Tag.positive
+    # @recent_articles = Article.recent_populars @setting.recent_popular_span, 5
   end
 end

@@ -8,5 +8,9 @@
   document.getElementById("articles-paginate-container").innerHTML =
     "<%= j(paginate @articles, remote: true) %>";
 
-  scrollTo(0, 0);
+  window.scrollTo({
+    top: parseInt("<%= main_cover_anable? ? 400 : 0 %>"),
+    left: 0,
+    behavior: "smooth",
+  });
 })();

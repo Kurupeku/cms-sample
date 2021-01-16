@@ -2,6 +2,6 @@ section.uk-card.uk-card-default.uk-padding-small.uk-margin
   h5.uk-card-title
     = Tag.model_name.human
   ul.uk-list.uk-list-divider
-    - @side_menu_tags.map do |tag|
+    - @side_menu[:tags].map do |tag|
       li
         = link_to "#{tag.name} (#{tag.articles_count})", tag_path(tag), class: 'uk-link-text'

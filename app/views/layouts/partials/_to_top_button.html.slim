@@ -1,0 +1,2 @@
+- offset = request.path == '/' && @setting.anable_recent_popular && @setting.main_cover.attached? ? -400 : 0
+a#to-top-button.uk-button.uk-button-primary.uk-border-circle.uk-animation-slide-bottom href="#" uk-totop="" uk-scroll="offset: #{offset}"

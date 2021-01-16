@@ -1,6 +1,6 @@
 header#global-header.uk-position-relative
   nav.uk-navbar.uk-padding-small.uk-padding-remove-vertical.uk-background-secondary.uk-light uk-navbar="dropbar: true; dropbar-mode: push;"
     .uk-navbar-left
-      = link_to "Sample Blog", root_path, class: "uk-navbar-item uk-logo"
+      = link_to @setting.site_title, root_path, class: "uk-navbar-item uk-logo"
     div class="uk-navbar-right"
       = render partial: 'layouts/partials/global_menu', locals: { with_mobile: true }

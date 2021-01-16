@@ -10,6 +10,7 @@ class TagsController < ApplicationController
 
   # GET /tags/1
   def show
+    define_side_menu_models
     @search = @tag.articles.published.post.ransack params[:q]
     @articles = @search.result.page(@page).per(@per)
     respond_to do |format|

@@ -1,0 +1,8 @@
+ja:
+  categories:
+    index:
+      title: カテゴリー一覧
+
+    show:
+      title: "%{name}カテゴリーの記事一覧"
+      uncategorized_title: 未分類の記事一覧

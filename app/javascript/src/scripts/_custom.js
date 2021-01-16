@@ -7,7 +7,7 @@ import UIkit from "uikit";
 
   const mediaQuery_lt_md = matchMedia("(max-width: 640px)");
 
-  const scrollToTopButtonThreshold = 300;
+  const scrollToTopButtonThreshold = 400;
 
   // Methods
   const setLoadingSpinner = (e) => {

@@ -1,3 +1,5 @@
+- provide :title, @category ? t('.title', name: @category.name) : t('.uncategorized_title')
+
 - if @category.present?
   - breadcrumb :category, @category
 - else
