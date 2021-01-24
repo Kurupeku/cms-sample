@@ -244,5 +244,21 @@ ja:
     failed_to_create_comment: コメントの投稿に失敗しました
   buttons:
     submit: この内容で送信する
+    reply: 返信
     comment_submit: この内容でコメントする
     back: 戻る
+  mailer:
+    contact_mailer:
+      common:
+        email: Email
+        content: 内容
+      admin:
+        subject: 問い合わせを受信しました
+        from_text: "%{name} 様からお問い合わせがありました。"
+      user:
+        subject: お問い合わせ完了確認の自動送信メール
+        read_text: |
+          以下の内容でお問い合わせを承りました。
+
+          内容を拝見し、ご入力頂いたメールアドレス宛にご返信差し上げます。
+          今しばらくお待ち下さいませ。

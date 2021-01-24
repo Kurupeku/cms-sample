@@ -12,6 +12,11 @@ crumb :contact do
   parent :root
 end
 
+crumb :thanks do
+  link t('contacts.thanks.title'), '/contacts/thanks'
+  parent :root
+end
+
 crumb :categories do
   link Category.model_name.human, categories_path
   parent :root

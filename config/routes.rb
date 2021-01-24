@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   resources :articles, only: [:show] do
     resources :comments, only: %i[create]
   end
-  get 'contacts', to: 'contacts#new'
-  post 'contacts', to: 'contacts#create'
+  resources :contacts, only: %i[new create] do
+    collection do
+      get 'thanks'
+    end
+  end
   root to: 'articles#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

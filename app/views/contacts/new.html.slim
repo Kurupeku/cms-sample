@@ -7,28 +7,29 @@
   .uk-card-body
     h1.uk-card-title
       = t '.title'
-    = form_tag '/contacts', method: :post, id: 'contact-form', class: 'validation-form'
+    = form_for @contact, html: { id: 'contact-form', class: 'validation-form' } do |f|
+      = render partial: 'layouts/partials/form_errors', locals: { record: @contact }
 
       .contact-form-control.validation-target.uk-grid-collapse.uk-margin uk-grid=""
         div class="uk-width-1-4@m"
           .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
-            = label_tag :name, t('.name'), class: 'uk-text-bolder'
+            = f.label :name, class: 'uk-text-bolder'
         div class="uk-width-3-4@m"
-          = text_field_tag :name, '', class: 'uk-input', data: { regexp: '^.$', message: t('validations.require') }
+          = f.text_field :name, class: 'uk-input', data: { regexp: '^.+$', message: t('validations.require') }
 
       .contact-form-control.validation-target.uk-grid-collapse.uk-margin uk-grid=""
         div class="uk-width-1-4@m"
           .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
-            = label_tag :email, t('.email'), class: 'uk-text-bolder'
+            = f.label :email, class: 'uk-text-bolder'
         div class="uk-width-3-4@m"
-          = email_field_tag :email, '', class: 'uk-input', data: { regexp: "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", message: t('validations.email_validation') }
+          = f.text_field :email, class: 'uk-input', data: { regexp: "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", message: t('validations.email_validation') }
 
       .contact-form-control.validation-target.uk-grid-collapse.uk-margin uk-grid=""
         div class="uk-width-1-4@m"
           .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
-            = label_tag :content, t('.content'), class: 'uk-text-bolder'
+            = f.label :content, class: 'uk-text-bolder'
         div class="uk-width-3-4@m"
-          = text_area_tag :content, '', class: 'uk-textarea uk-height-medium', data: { regexp: '[亜-熙ぁ-んァ-ヶ]+', message: t('validations.require_japanese') }
+          = f.text_area :content, class: 'uk-textarea uk-height-medium', data: { regexp: '[亜-熙ぁ-んァ-ヶ]+', message: t('validations.require_japanese') }
 
       .uk-flex.uk-flex-center
-        = submit_tag t('buttons.submit'), id: 'contact-form-submit', class: 'uk-button uk-button-primary uk-width-1-1', disabled: true
+        = f.submit t('buttons.submit'), id: 'contact-form-submit', class: 'uk-button uk-button-primary uk-width-1-1', disabled: true

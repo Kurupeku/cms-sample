@@ -1,0 +1,12 @@
+- provide :title, t('.title')
+
+- breadcrumb :thanks
+= render partial: 'layouts/partials/breadcrumbs'
+
+.uk-card.uk-card-default
+  .uk-card-body
+    h2.uk-card-title
+      = t '.read'
+
+    p
+      = simple_format t('.content')

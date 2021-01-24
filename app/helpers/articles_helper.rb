@@ -51,7 +51,7 @@ module ArticlesHelper
       <li id="comment-#{comment.number}" #{deep.positive? ? "class=\"comment-p-#{deep}\"" : ''}>
         <div class="uk-flex uk-position-relative">
           <div class="uk-margin-right">
-            <a href="#" class="reply-to-link uk-link" data-target="#{comment.id}">No. #{comment.number}</a>
+            No. #{comment.number}
           </div>
           <div class="uk-margin-right">#{comment.author_name}</div>
           <div>#{l comment.created_at}</div>
@@ -59,6 +59,9 @@ module ArticlesHelper
         <div class="uk-padding-small uk-padding-remove-horizontal">
           #{parent_comment_link comment.parent}
           #{comment.content}
+        </div>
+        <div class="uk-margin-bottom">
+          <a href="#" class="reply-to-link uk-link" data-target="#{comment.id}">#{t 'buttons.reply'}</a>
         </div>
       </li>
     HTML
@@ -69,12 +72,11 @@ module ArticlesHelper
 
     <<~"HTML"
       <div class="uk-inline uk-width-expand">
-        <button
-          type="button"
-          class="uk-button uk-button-text"
+        <a
+          class="uk-link"
         >
           >>#{parent.number}
-        </button >
+        </a>
         <div class="uk-width-expand" uk-drop="mode: click">
           #{parent_card_html parent}
         </div>

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       { label: Category.model_name.human, path: categories_path },
       { label: Tag.model_name.human, path: tags_path },
       *static_page_menus,
-      { label: '問い合わせ', path: '/contacts' }
+      { label: '問い合わせ', path: new_contact_path }
     ]
   end
 
@@ -31,10 +31,5 @@ class ApplicationController < ActionController::Base
       tags: Tag.positive,
       recent_popular_articles: Article.recent_populars(@setting.recent_popular_span, 5)
     }
-
-    # @side_menu_categories = Category.positive_parent
-    # @side_menu_uncategorized_articles_count = Article.where(category_id: nil).size
-    # @side_menu_tags = Tag.positive
-    # @recent_articles = Article.recent_populars @setting.recent_popular_span, 5
   end
 end

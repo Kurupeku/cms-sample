@@ -1,6 +1,4 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[show]
-
   # POST /comments
   def create
     @comment = Comment.new comment_params
@@ -8,16 +6,13 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to article_path(id: params[:article_id]), flash: { success: t('notice.create_comment') }
     else
-      redirect_to article_path(id: params[:article_id]), flash: { error: t('notice.failed_to_create_comment') }
+      set_article_variables
+      flash.now[:error] = t 'notice.failed_to_create_comment'
+      render template: 'articles/show'
     end
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_comment
-    @comment = Comment.find params[:id]
-  end
 
   # Only allow a trusted parameter "white list" through.
   def comment_params
@@ -26,5 +21,14 @@ class CommentsController < ApplicationController
 
   def set_request_informations
     @comment.analysis_request_informations request
+  end
+
+  def set_article_variables
+    @article = Article.published.post.find_by! slug: @comment.article_id
+    @previous_article = @article.previous
+    @next_article = @article.next
+    @content_html = @article.content.html_safe
+    @comment = @article.comments.build
+    define_side_menu_models
   end
 end

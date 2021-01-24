@@ -94,6 +94,10 @@ GEM
       rails (>= 4.2.0, < 6.1)
       sprockets (= 3.7.2)
     diff-lcs (1.4.4)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
     erubi (1.10.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
@@ -131,6 +135,10 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -329,6 +337,7 @@ DEPENDENCIES
   devise
   devise-i18n
   devise_token_auth
+  dotenv-rails
   factory_bot_rails
   fast_jsonapi
   foreman
@@ -337,6 +346,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   impressionist
   kaminari
+  letter_opener
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
