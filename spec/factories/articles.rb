@@ -113,6 +113,7 @@ end
 #  content           :text             default(""), not null
 #  impressions_count :integer          default(0), not null
 #  opening_sentence  :string           default("")
+#  position          :integer
 #  published_at      :datetime
 #  slug              :string           not null
 #  status            :integer          default("draft"), not null

@@ -32,13 +32,6 @@ class ArticlesController < ApplicationController
     @article = Article.published.post.find_by! slug: params[:id]
   end
 
-  # Only allow a trusted parameter "white list" through.
-  def article_params
-    params.require(:article).permit :title, :article_type, :published_at,
-                                    :status, :slug, :author_id, :category_id,
-                                    :cover, :content
-  end
-
   def set_default_ransack
     return if params[:q].present?
 

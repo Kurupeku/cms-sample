@@ -48,8 +48,9 @@ RSpec.describe Article, type: :model do
   end
 
   context 'カウンターキャッシュの動作確認' do
+    let(:article) { create :article }
+
     it '関連する Comment が作成された際にカウンターが増える' do
-      article = create :article
       expect do
         create :comment, article: article
       end.to change { article.comments_count }.by 1
@@ -70,8 +71,9 @@ RSpec.describe Article, type: :model do
   end
 
   context '依存削除の動作確認' do
+    let(:article) { create :article }
+
     it 'Article インスタンスが削除された場合、関連する Comment も削除される' do
-      article = create :article
       create_list :comment, 3, article: article
       expect do
         article.destroy
@@ -79,7 +81,6 @@ RSpec.describe Article, type: :model do
     end
 
     it 'Article インスタンスが削除された場合、Tag との中間テーブルのレコードも削除される' do
-      article = create :article
       create_list :tag, 3, articles: [article]
       expect do
         article.destroy
@@ -89,7 +90,8 @@ RSpec.describe Article, type: :model do
 
   context 'set_opening_sentence の動作確認' do
     let(:content_string) { 'sample content text.' * 10 }
-    reg = %r{</?[^>]+?>}.freeze
+    let(:article) { create :article, content: content_string }
+    let(:reg) { %r{</?[^>]+?>}.freeze }
 
     it 'content が登録された際に、先頭40byte文の文章が opening_sentence に登録される' do
       article = create :article, content: content_string
@@ -98,36 +100,62 @@ RSpec.describe Article, type: :model do
   end
 
   context 'set_published_at の動作確認' do
+    let(:article) { create :article, status: :published }
+
     it 'status が published になった際に、published_at へ現在時刻が登録される' do
-      article = create :article, status: :published
       expect(article.published_at).to be_truthy
     end
 
     it 'status がすでに published だった場合、published_at は更新されない' do
-      article = create :article, status: :published
       before_time = article.published_at
       article.published!
       expect(before_time).to eq article.published_at
     end
   end
 
+  context 'set_default_position の動作確認' do
+    let(:article_a) { build :article, article_type: :static }
+    let(:article_b) { build :article, article_type: :static }
+
+    it 'article_type が static だった場合、position に同カラム最大値 + 1 がセットされる' do
+      article_a.save
+      expect(article_a.position).to eq 1
+
+      article_b.save
+      expect(article_b.position).to eq 2
+    end
+  end
+
   context 'remove_published_at の動作確認' do
+    let(:article) { create :article, status: :draft }
+
     it 'status が draft になった際に、published_at が削除される' do
-      article = create :article, status: :draft
       expect(article.published_at).to be_falsey
     end
 
     it 'status がすでに draft だった場合、published_at は更新されない' do
-      article = create :article, status: :draft
       before_time = article.published_at
       article.draft!
       expect(before_time).to eq article.published_at
     end
   end
 
+  context 'move_to の動作確認' do
+    let(:statics) { create_list :article, 3, article_type: :static }
+
+    it 'インスタンスの position を引数の値に更新し、その値以上の record の position を繰り上げて保存する' do
+      statics.first.move_to 2
+      expect(statics.second.reload.position).to eq 1
+
+      statics.third.move_to 1
+      expect(statics.second.reload.position).to eq 2
+    end
+  end
+
   context 'comments_choices の動作確認' do
-    it '関連付けられた Comment の一覧を number 昇順にソートし、[select の表示名, select の value] 形式で取得する関数' do
-      article = create :article, status: :draft
+    let(:article) { create :article, status: :draft }
+
+    it '関連付けられた Comment の一覧を number 昇順にソートし、[select の表示名, select の value] 形式で取得する' do
       create_list :comment, 10, article: article
       last_comment = article.comments.last
       expect(article.comments_choices.last).to eq ["No.#{last_comment.number}", last_comment.id]
@@ -145,6 +173,7 @@ end
 #  content           :text             default(""), not null
 #  impressions_count :integer          default(0), not null
 #  opening_sentence  :string           default("")
+#  position          :integer
 #  published_at      :datetime
 #  slug              :string           not null
 #  status            :integer          default("draft"), not null
