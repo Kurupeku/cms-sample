@@ -48,7 +48,7 @@ module ArticlesHelper
 
   def comment_main_html(comment, deep)
     <<~"HTML"
-      <li id="comment-#{comment.number}" #{deep.positive? ? "class=\"comment-p-#{deep}\"" : ''}>
+      <li id="comment-#{comment.number}" class="article-comment#{deep.positive? ? " comment-p-#{deep}" : ''}">
         <div class="uk-flex uk-position-relative">
           <div class="uk-margin-right">
             No. #{comment.number}
@@ -73,11 +73,11 @@ module ArticlesHelper
     <<~"HTML"
       <div class="uk-inline uk-width-expand">
         <a
-          class="uk-link"
+          class="reply-preview-link uk-link"
         >
           >>#{parent.number}
         </a>
-        <div class="uk-width-expand" uk-drop="mode: click">
+        <div class="reply-preview-dialog uk-width-expand" uk-drop="mode: click">
           #{parent_card_html parent}
         </div>
       </div><br>

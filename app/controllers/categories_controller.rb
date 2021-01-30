@@ -6,6 +6,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   def index
     @categories = @side_menu_categories || Category.positive_parent
+    @uncategorized_articles_count = Article.where(category_id: nil).size
   end
 
   # GET /categories/1

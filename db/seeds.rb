@@ -24,6 +24,7 @@ end
 
 unless Setting.find_by id: 1
   Setting.create! site_title: 'Sample App',
+                  mail_to: ENV['EMAIL_ADDRESS'],
                   anable_main_cover: false,
                   anable_recent_comments: false,
                   anable_recent_popular: false,

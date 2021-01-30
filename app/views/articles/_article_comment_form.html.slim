@@ -1,12 +1,13 @@
 = form_with model: @comment, url: article_comments_path(@article), id: 'comment-form', class: 'validation-form uk-margin-large-bottom' do |f|
   = f.hidden_field :article_id
 
-  .comment-form-control.uk-grid-collapse.uk-margin uk-grid=""
-    div class="uk-width-1-4@m"
-      .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
-        = f.label :parent_id, class: 'uk-text-bolder'
-    div class="uk-width-3-4@m"
-      = f.select :parent_id, @article.comments_choices, { include_blank: t('utilities.none') }, id: 'comment-reply-select', class: 'uk-select'
+  - if @article.comments.size.positive?
+    .comment-form-control.uk-grid-collapse.uk-margin uk-grid=""
+      div class="uk-width-1-4@m"
+        .uk-background-muted.uk-height-1-1.uk-flex.uk-flex-middle.uk-padding-small.uk-padding-remove-vertical
+          = f.label :parent_id, for: 'comment-reply-select', class: 'uk-text-bolder'
+      div class="uk-width-3-4@m"
+        = f.select :parent_id, @article.comments_choices, { include_blank: t('utilities.none') }, id: 'comment-reply-select', class: 'uk-select'
 
   .comment-form-control.uk-grid-collapse.uk-margin uk-grid=""
     div class="uk-width-1-4@m"

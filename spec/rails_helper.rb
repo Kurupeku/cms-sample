@@ -85,4 +85,10 @@ RSpec.configure do |config|
   config.after(:all) do
     DatabaseCleaner.clean
   end
+
+  config.before(:each) do |example|
+    if example.metadata[:type] == :system
+      driven_by :selenium, using: :headless_chrome, options: { args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage] }
+    end
+  end
 end

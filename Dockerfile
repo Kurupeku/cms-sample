@@ -4,7 +4,7 @@ RUN apt update -qq && apt install -y --no-install-recommends build-essential lib
   postgresql-client
 
 RUN curl -sL https://deb.nodesource.com/setup_15.x | bash - \
-  && apt install nodejs
+  && apt install -y nodejs chromium-driver
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \

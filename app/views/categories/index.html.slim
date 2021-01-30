@@ -20,4 +20,4 @@ section.uk-card.uk-card-default.uk-card-body
         - else
           = link_to "#{category.name} (#{category.articles_count})", category_path(category), class: 'uk-link-text'
     li
-      = link_to "#{t('utilities.uncategorized')} (#{@side_menu_uncategorized_articles_count})", '/categories/0', class: 'uk-link-text'
+      = link_to "#{t('utilities.uncategorized')} (#{@uncategorized_articles_count})", '/categories/0', class: 'uk-link-text'
