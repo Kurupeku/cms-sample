@@ -11,7 +11,7 @@ new_attributes = {
 setting = Setting.first
 setting.update! new_attributes
 
-main_cover_path = Rails.root.join 'public', 'main_cover_dev.jpg'
+main_cover_path = Rails.root.join 'public', 'initial_main_cover.jpg'
 setting.main_cover.attach io: File.open(main_cover_path),
-                          filename: 'main_cover_dev.jpg',
+                          filename: 'initial_main_cover.jpg',
                           content_type: 'image/jpeg'

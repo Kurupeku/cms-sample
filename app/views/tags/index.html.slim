@@ -9,4 +9,4 @@ section.uk-card.uk-card-default.uk-card-body
   ul.uk-list.uk-list-divider
     - @tags.map do |tag|
       li
-        = link_to "#{tag.name} (#{tag.articles_count})", tag_path(tag), class: 'uk-link-text'
+        = link_to "#{tag.name} (#{tag.articles_count})", tag_path(tag), class: 'tags-link uk-link-text'

@@ -27,12 +27,12 @@ import UIkit from "uikit";
     const classList = elm.classList;
     if (
       !classList.contains("show") &&
-      window.pageYOffset > scrollToTopButtonThreshold
+      window.pageYOffset >= scrollToTopButtonThreshold
     ) {
       classList.add("show");
     } else if (
       classList.contains("show") &&
-      window.pageYOffset <= scrollToTopButtonThreshold
+      window.pageYOffset < scrollToTopButtonThreshold
     ) {
       classList.remove("show");
     }

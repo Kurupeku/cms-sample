@@ -49,7 +49,7 @@ module ApplicationHelper
   end
 
   def main_cover_anable?
-    request.path == '/' && @setting.anable_recent_popular && @setting.main_cover.attached?
+    request.path == root_path && @setting.anable_recent_popular && @setting.main_cover.attached?
   end
 
   def articles_per_url(default_key, per)

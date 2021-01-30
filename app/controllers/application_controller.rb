@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       { label: Category.model_name.human, path: categories_path },
       { label: Tag.model_name.human, path: tags_path },
       *static_page_menus,
-      { label: '問い合わせ', path: new_contact_path }
+      { label: Contact.model_name.human, path: new_contact_path }
     ]
   end
 

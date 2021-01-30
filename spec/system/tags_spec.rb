@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Categories', type: :system do
-  let(:tag) { create :tag }
+RSpec.describe 'Tags', type: :system do
+  let(:tags) { create_list :tag, 2 }
+  let(:tag) { tags.first }
   let(:categories) { create_list :category, 2 }
-  let(:category) { categories.first }
+  let(:category) { create :category }
   let(:nested_category) do
     create :category, :with_children
   end
@@ -12,65 +13,46 @@ RSpec.describe 'Categories', type: :system do
   let(:list_size) { 25 }
   before do
     setting
-    categories.each do |c|
-      create_list :article, list_size, status: 1, category: c, tags: [tag]
+    tags.each do |t|
+      create_list :article, list_size, status: 1, category: category, tags: [t]
     end
-    create_list :article, list_size, status: 1, tags: [tag]
   end
 
   context 'Index' do
-    let(:path) { categories_path }
+    let(:path) { tags_path }
     before do
       visit path
     end
 
     it 'ページタイトルが適切であること' do
-      expect(page).to have_title I18n.t('categories.index.title')
+      expect(page).to have_title I18n.t('tags.index.title')
     end
 
-    it '記事を持つカテゴリと親カテゴリ、未分類のリンクが存在すること' do
-      create :article, category: child_category
-      visit path
+    it '記事を持つタグへのリンク一覧が存在すること' do
+      tags.each do |t|
+        click_on "#{t.name} (#{t.articles_count})"
 
-      categories.each do |c|
-        click_on "#{c.name} (#{c.articles_count})"
-
-        expect(current_path).to eq category_path(c)
+        expect(current_path).to eq tag_path(t)
         visit path
       end
-
-      expect(page).to have_content nested_category.name
-
-      click_on "#{I18n.t('utilities.uncategorized')} (#{list_size})"
-      expect(current_path).to eq category_path(id: 0)
-    end
-
-    it 'ネストしたカテゴリはアコーディオンとして表示されていること' do
-      create :article, category: child_category
-      expect(page).to_not have_content "#{child_category.name} (#{child_category.articles_count})"
-
-      visit path
-      click_on nested_category.name
-      expect(page).to have_content "#{child_category.name} (#{child_category.articles_count})"
     end
   end
 
   context 'Show' do
-    let(:path) { category_path(category) }
+    let(:path) { tag_path(tag) }
     let(:first_article) do
-      category.articles
-              .published
-              .post
-              .where(category_id: category.id)
-              .order(published_at: :desc)
-              .first
+      tag.articles
+         .published
+         .post
+         .order(published_at: :desc)
+         .first
     end
     before do
       visit path
     end
 
     it 'ページタイトルが適切であること' do
-      expect(page).to have_title I18n.t('categories.show.title', name: category.name)
+      expect(page).to have_title I18n.t('tags.show.title', name: tag.name)
     end
 
     it 'ソート用のリンクタブが表示されること' do

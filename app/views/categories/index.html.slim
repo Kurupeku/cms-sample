@@ -16,8 +16,8 @@ section.uk-card.uk-card-default.uk-card-body
             ul.uk-list.uk-list-divider
               - category.children.map do |child|
                 li.uk-padding-small.uk-padding-remove-vertical
-                  = link_to "#{child.name} (#{child.articles_count})", category_path(child), class: 'uk-link-text'
+                  = link_to "#{child.name} (#{child.articles_count})", category_path(child), class: 'categories-link uk-link-text'
         - else
-          = link_to "#{category.name} (#{category.articles_count})", category_path(category), class: 'uk-link-text'
+          = link_to "#{category.name} (#{category.articles_count})", category_path(category), class: 'categories-link uk-link-text'
     li
-      = link_to "#{t('utilities.uncategorized')} (#{@uncategorized_articles_count})", '/categories/0', class: 'uk-link-text'
+      = link_to "#{t('utilities.uncategorized')} (#{@uncategorized_articles_count})", '/categories/0', class: 'categories-link uk-link-text'

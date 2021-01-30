@@ -15,13 +15,19 @@ RSpec.describe 'Articles', type: :system do
 
   context 'Index' do
     let(:path) { root_path }
+    let(:first_article) do
+      Article.published
+             .post
+             .order(published_at: :desc)
+             .first
+    end
     before do
       create_list :article, list_size, status: 1, category: category, tags: [tag]
       visit path
     end
 
     it 'ページタイトルが適切であること' do
-      expect(page).to have_title I18n.t('articles.index.title')
+      expect(page).to have_title setting.site_title
     end
 
     it 'ソート用のリンクタブが表示されること' do
@@ -31,34 +37,26 @@ RSpec.describe 'Articles', type: :system do
     end
 
     it '記事が10件表示されること' do
-      articles_cards = page.all '.article-card'
-
-      expect(articles_cards.size).to eq 10
+      expect(all('.article-card').size).to eq 10
     end
 
     it '記事の表示件数が20件に変更されること' do
       click_on I18n.t('utilities.per')
       click_on '20'
-      articles_cards = all '.article-card'
 
-      expect(articles_cards.size).to eq 20
+      expect(all('.article-card').size).to eq 20
     end
 
     it 'status: :draft の記事は表示されないこと' do
       create_list :article, 5
       click_on I18n.t('utilities.per')
       click_on '50'
-      articles_cards = all '.article-card'
 
-      expect(articles_cards.size).to eq list_size
+      expect(all('.article-card').size).to eq list_size
     end
 
     it '記事のカードをクリックすると記事詳細に遷移すること' do
       first('.article-card').click
-      first_article = Article.published
-                             .post
-                             .order(published_at: :desc)
-                             .first
 
       expect(current_path).to eq article_path(first_article)
     end
@@ -83,12 +81,13 @@ RSpec.describe 'Articles', type: :system do
     end
 
     it 'サイドメニュー内のネストしたカテゴリはアコーディオンとして表示されていること' do
-      child = nested_category.children.first
-      create :article, category: child
+      create :article, category: child_category
+      expect(page).to_not have_content "#{child_category.name} (#{child_category.articles_count})"
+
       visit path
       click_on nested_category.name
-
-      expect(page).to have_content "#{child.name} (#{child.articles_count})"
+      click_on "#{child_category.name} (#{child_category.articles_count})"
+      expect(current_path).to eq category_path(child_category)
     end
 
     it 'タグ一覧のサイドメニューが表示されていること' do
@@ -111,6 +110,8 @@ RSpec.describe 'Articles', type: :system do
     let(:body) { page.find 'body' }
     let(:article) { create :article, status: 1, category: category, tags: [tag] }
     let(:comment_parent_label) { Comment.human_attribute_name :parent_id }
+    let(:comment_content_label) { Comment.human_attribute_name :content }
+    let(:comment_submit_label) { I18n.t('buttons.comment_submit') }
     let(:comment_submit) { find '#comment-form-submit' }
     let(:parent_comment) { create :comment, article: article }
     let(:child_comment) { create :comment, article: article, parent: parent_comment }
@@ -141,7 +142,16 @@ RSpec.describe 'Articles', type: :system do
       expect(comment_list.size).to eq 3
     end
 
-    it 'コメントのリプライ先リンクをクリックすると内容がダイアログで表示される' do
+    it 'コメント投稿用のフォームが表示されていること' do
+      expect(find('#comment_article_id', visible: false).value).to eq article.id.to_s
+      expect(page).to have_select comment_parent_label,
+                                  selected: I18n.t('utilities.none')
+      expect(page).to have_content I18n.t('utilities.your_name')
+      expect(page).to have_content comment_content_label
+      expect(page).to have_button comment_submit_label, disabled: true
+    end
+
+    it 'コメントのリプライ先リンクをクリックすると内容がダイアログで表示されていること' do
       child_comment
       visit path
       find("#comment-#{child_comment.number}").find('.reply-preview-link').click
@@ -160,7 +170,7 @@ RSpec.describe 'Articles', type: :system do
                                   options: options
     end
 
-    it 'コメントの返信リンクをクリックすると :parent_id にクリックしたコメントの :number が入力される' do
+    it 'コメントの返信リンクをクリックすると :parent_id にクリックしたコメントの :number が入力されること' do
       create_list :comment, 5, article: article
       visit path
       first_comment = article.comments.first
@@ -174,7 +184,7 @@ RSpec.describe 'Articles', type: :system do
       fill_in I18n.t('utilities.your_name'), with: 'テスト'
       body.click
 
-      expect(comment_submit).to be_disabled
+      expect(page).to have_button comment_submit_label, disabled: true
     end
 
     it 'コメントフォームからコメントを作成できること' do
@@ -200,7 +210,8 @@ RSpec.describe 'Articles', type: :system do
 
       visit path
       click_on nested_category.name
-      expect(page).to have_content "#{child_category.name} (#{child_category.articles_count})"
+      click_on "#{child_category.name} (#{child_category.articles_count})"
+      expect(current_path).to eq category_path(child_category)
     end
 
     it 'タグ一覧のサイドメニューが表示されていること' do
