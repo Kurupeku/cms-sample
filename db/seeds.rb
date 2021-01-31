@@ -22,7 +22,14 @@ module DevelopmentSeeds
   end
 end
 
-unless Setting.find_by id: 1
+unless User.exists?
+  puts 'Creating users...'
+  User.create! email: 'y.u.kurupeku@gmail.com',
+               password: 'password'
+end
+
+unless Setting.exists?
+  puts 'Creating settings...'
   Setting.create! site_title: 'Sample App',
                   mail_to: ENV['EMAIL_ADDRESS'],
                   anable_main_cover: false,

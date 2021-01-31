@@ -1,16 +1,10 @@
-# frozen_string_literal: true
+class UserSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :email, :created_at, :updated_at
 
-FactoryBot.define do
-  factory :user do
-    sequence(:email) { |n| "user_#{n}@test-user.com" }
-    password { 'password' }
-
-    trait :user_with_profile do
-      after(:create, :build) do |user|
-        create :profile, user: user, name: "SampleUser#{user.id}"
-      end
-    end
-  end
+  has_one :profile
+  has_many :articles
+  has_many :comments
 end
 
 # == Schema Information

@@ -1,5 +1,6 @@
 class Profile < ApplicationRecord
   # callbacks
+  before_validation :set_default_name
   before_create :set_default_description
 
   # validations
@@ -11,7 +12,21 @@ class Profile < ApplicationRecord
   # use active storage
   has_one_attached :avatar
 
+  def avatar_url
+    return '' unless avatar.attached?
+
+    Rails.application
+         .routes.url_helpers
+         .rails_representation_url avatar.variant({}), only_path: true
+  end
+
   private
+
+  def set_default_name
+    return if name.present?
+
+    self.name = "User #{user_id}"
+  end
 
   def set_default_description
     return if description.present?

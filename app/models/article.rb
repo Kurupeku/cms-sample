@@ -86,6 +86,14 @@ class Article < ApplicationRecord
     save
   end
 
+  def cover_url
+    return '' unless cover.attached?
+
+    Rails.application
+         .routes.url_helpers
+         .rails_representation_url cover.variant({}), only_path: true
+  end
+
   private
 
   def not_add_to_parent_category

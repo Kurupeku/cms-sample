@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery
   prepend_before_action :set_setting
   before_action :define_menu_variables
 

@@ -72,9 +72,12 @@ module App
     end
 
     # CSRF disable
-    config.action_controller.default_protect_from_forgery = true
+    config.action_controller.default_protect_from_forgery = false
 
     # Security for dos attack
     config.middleware.use Rack::Attack
+
+    # Autoloading files in 'lib' dir
+    config.paths.add 'lib', eager_load: true
   end
 end

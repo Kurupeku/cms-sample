@@ -10,6 +10,14 @@ class Setting < ApplicationRecord
 
   # use active storage
   has_one_attached :main_cover
+
+  def main_cover_url
+    return '' unless main_cover.attached?
+
+    Rails.application
+         .routes.url_helpers
+         .rails_representation_url main_cover.variant({}), only_path: true
+  end
 end
 
 # == Schema Information

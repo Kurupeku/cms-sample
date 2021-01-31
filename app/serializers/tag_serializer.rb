@@ -1,13 +1,7 @@
-class Tag < ApplicationRecord
-  # validations
-  validates :name, presence: true, uniqueness: true
-
-  # relations
-  has_many :article_tag_attachments, dependent: :destroy
-  has_many :articles, through: :article_tag_attachments
-
-  # scope
-  scope :positive, -> { where 'articles_count > ?', 0 }
+class TagSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :name, :created_at, :updated_at
+  has_many :articles
 end
 
 # == Schema Information

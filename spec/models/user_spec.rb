@@ -32,6 +32,15 @@ RSpec.describe User, type: :model do
       expect(user.errors.key?(:password)).to be true
     end
   end
+
+  context 'set_default_profile の動作確認' do
+    let(:user) { create :user }
+
+    it 'ユーザー作成時にプロフィールもデフォルトの値で作成される' do
+      expect(user.profile.name).to eq "User #{user.id}"
+      expect(user.profile.description).to eq ''
+    end
+  end
 end
 
 # == Schema Information
@@ -39,11 +48,15 @@ end
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  allow_password_change  :boolean          default(FALSE)
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  provider               :string           default("email"), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  tokens                 :json
+#  uid                    :string           default(""), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -51,4 +64,5 @@ end
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
