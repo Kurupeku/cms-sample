@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   concern :csvable do
     collection do
@@ -6,6 +7,9 @@ Rails.application.routes.draw do
       get :export_template
     end
   end
+
+  get 'admin', to: 'admin#index'
+  get 'admin/:slug', to: 'admin#index'
 
   # devise_for :users
   namespace 'api' do
