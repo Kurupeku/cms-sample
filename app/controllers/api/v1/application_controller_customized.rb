@@ -153,7 +153,7 @@ module Api
       def serialize_options
         snakalize_keys({
                          include: params[:include],
-                         fields: params[:fields]
+                         fields: params[:fields],
                        })
       end
 

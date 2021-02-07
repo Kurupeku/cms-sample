@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # relations
   has_one :profile
 
-  has_many :articles
+  has_many :articles, foreign_key: :author_id
   has_many :comments
 
   private

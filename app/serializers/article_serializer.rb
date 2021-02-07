@@ -1,7 +1,10 @@
 class ArticleSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :slug, :author_id, :category_id, :status, :cover_url, :title, :content,
+  attributes :slug, :status, :cover_url, :title, :content,
              :opening_sentence, :article_type, :published_at, :created_at, :updated_at
+
+  belongs_to :author, record_type: :user
+  belongs_to :category
   has_many :comments
   has_many :tags
 end
