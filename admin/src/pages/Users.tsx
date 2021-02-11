@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Api from "../utilities/Api";
 import { User } from "../types/store";
 
+const usersPath = "/users";
+
 export default function Users() {
   const [data, setData] = useState<User[]>([]);
   const [page, setPage] = useState(1);
@@ -9,11 +11,10 @@ export default function Users() {
 
   const getRequest = () => {
     Api.get<User[]>(
-      "/articles",
+      usersPath,
       { page: page, per: per },
       {
         success: (result) => {
-          console.log(result);
           if (result) setData(result.data.data);
         },
       }

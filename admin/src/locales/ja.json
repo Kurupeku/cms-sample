@@ -1,0 +1,24 @@
+{
+  "pages": {
+    "login": {
+      "title": "ログイン",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "submit": "ログインする"
+    }
+  },
+  "components": {
+    "sideMenu": {
+      "title": "管理画面 | {{siteTitle}}",
+      "defaultTitle": "管理画面",
+      "articles": "投稿",
+      "media": "メディア",
+      "comments": "コメント",
+      "contacts": "問い合わせ",
+      "categories": "カテゴリ",
+      "tags": "タグ",
+      "users": "ユーザー情報",
+      "setting": "設定"
+    }
+  }
+}

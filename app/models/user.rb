@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   # relations
   has_one :profile
+  accepts_nested_attributes_for :profile
 
   has_many :articles, foreign_key: :author_id
   has_many :comments

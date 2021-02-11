@@ -1,5 +1,4 @@
-import axios, { AxiosAdapter, AxiosError, AxiosResponse } from "axios";
-import qs from "qs";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Record } from "../types/store";
 
 interface SesionData {
@@ -25,9 +24,13 @@ interface Pagenation {
   count: string;
 }
 
+interface Included extends Record {
+  [key: string]: any;
+}
+
 interface ResponseData<T> {
   data: T;
-  included?: Record[];
+  included?: Included[];
   pagination?: Pagenation;
 }
 
@@ -35,8 +38,6 @@ interface Callback<T = any> {
   success?: (response: AxiosResponse<ResponseData<T>>) => void;
   error?: (err: AxiosError) => void;
 }
-
-const serializeParams = (params: RequestParams = {}) => qs.stringify(params);
 
 const authKeys = ["access-token", "client", "uid"];
 
@@ -53,7 +54,6 @@ const setSessionInfo = (response: AxiosResponse) => {
     const headers = response.headers;
     authKeys.forEach((key) => {
       const value = headers[key];
-      console.log(key, value);
       if (value) localStorage.setItem(key, value);
     });
   }
@@ -84,13 +84,13 @@ const errorCallback = (
 
 const get = <T>(
   path: string,
-  params?: RequestData,
+  params?: RequestParams,
   callback?: Callback<T>
 ): Promise<void | AxiosResponse<ResponseData<T>>> => {
-  const url = path + (params ? "?" + serializeParams(params) : "");
   return axios({
     ...generateConfig(),
-    url: url,
+    url: path,
+    params: params,
   })
     .then((res) => {
       if (callback && callback.success) callback.success(res);
@@ -185,7 +185,7 @@ const download = (path: string, fileName?: string, callback?: Callback) => {
     .catch((err: AxiosError) => errorCallback(err, callback && callback.error));
 };
 
-export default {
+const Api = {
   get,
   post,
   put,
@@ -195,3 +195,5 @@ export default {
   setSessionInfo,
   clearSessionInfo,
 };
+
+export default Api;

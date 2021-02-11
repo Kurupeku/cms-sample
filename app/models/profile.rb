@@ -13,7 +13,7 @@ class Profile < ApplicationRecord
   has_one_attached :avatar
 
   def avatar_url
-    return '' unless avatar.attached?
+    return '/default_avatar.png' unless avatar.attached?
 
     Rails.application
          .routes.url_helpers
